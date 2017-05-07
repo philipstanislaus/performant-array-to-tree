@@ -11,5 +11,5 @@ dependencies:
 test:
   override:
     - yarn run lint
-    - yarn run test-and-send-cov-to-coveralls
     - yarn run build
+    - yarn run test-and-send-cov-to-coveralls
