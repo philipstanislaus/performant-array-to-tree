@@ -1,0 +1,33 @@
+{
+  "name": "performant-array-to-tree",
+  "version": "1.0.0",
+  "description": "Converts an array of items with ids and parent ids to a nested tree in a performant `O(n)` way. Runs in browsers and node.",
+  "main": "build/arrayToTree.min.js",
+  "author": "Philip Stanislaus <stanislaus.philip@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "chai": "^3.5.0",
+    "coveralls": "^2.13.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.3.0",
+    "mocha-lcov-reporter": "^1.3.0",
+    "remap-istanbul": "^0.9.5",
+    "tslint": "^5.2.0",
+    "tslint-config-standard": "^5.0.2",
+    "typescript": "^2.3.2",
+    "uglify-js": "^2.8.23"
+  },
+  "scripts": {
+    "build": "rm -rf build && tsc && npm run uglify",
+    "lint": "rm -rf build && tslint --type-check --project tsconfig.json './src/**/*.ts'",
+    "test-spec": "mocha build/**/*.spec.js -R spec --bail",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- build/**/*.spec.js -R spec --bail",
+    "test-and-send-cov-to-coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- build/**/*.spec.js -R spec --bail && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test-remap": "remap-istanbul -i coverage/coverage.json -o coverage -t html",
+    "test": "npm run build && npm run test-cov && npm run test-remap",
+    "uglify": "uglifyjs build/arrayToTree.js --compress --mangle --output build/arrayToTree.min.js"
+  }
+}
