@@ -88,7 +88,7 @@ tree === [
 This project includes types, just import the module as usual:
 
 ```ts
-import * as arrayToTree from 'performant-array-to-tree'
+import { arrayToTree } from 'performant-array-to-tree'
 
 const tree = arrayToTree(array)
 ```
