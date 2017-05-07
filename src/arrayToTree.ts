@@ -5,7 +5,7 @@ export interface Item {
 }
 
 export interface TreeItem {
-  data?: Item
+  data: Item
   children: TreeItem[]
 }
 
@@ -35,7 +35,7 @@ export function arrayToTree (items: Item[], config: Config = { id: 'id', parentI
     // look whether item already exists in the lookup table
     if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
       // item is not yet there, so add a preliminary item (its data will be added later)
-      lookup[itemId] = { children: [] }
+      lookup[itemId] = { data: null, children: [] }
     }
 
     // add the current item's data to the item in the lookup table
@@ -52,7 +52,7 @@ export function arrayToTree (items: Item[], config: Config = { id: 'id', parentI
       // look whether the parent already exists in the lookup table
       if (!Object.prototype.hasOwnProperty.call(lookup, parentId)) {
         // parent is not yet there, so add a preliminary parent (its data will be added later)
-        lookup[parentId] = { children: [] }
+        lookup[parentId] = { data: null, children: [] }
       }
 
       // add the current item to the parent
