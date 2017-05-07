@@ -21,6 +21,9 @@
     "uglify-js": "^2.8.23"
   },
   "scripts": {
+    "preversion": "yarn && npm run lint && npm run build && npm run test-and-send-cov-to-coveralls",
+    "version": "git add .",
+    "postversion": "git push && git push --tags",
     "build": "rm -rf build && tsc && npm run uglify",
     "lint": "rm -rf build && tslint --type-check --project tsconfig.json './src/**/*.ts'",
     "test-spec": "mocha build/**/*.spec.js -R spec --bail",
