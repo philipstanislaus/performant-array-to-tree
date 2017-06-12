@@ -10,17 +10,16 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![npm license](https://img.shields.io/npm/l/performant-array-to-tree.svg)](https://www.npmjs.com/package/performant-array-to-tree)
 
-Converts an array of items with ids and parent ids to a nested tree in a performant `O(n)` way. Runs in browsers and node.
+Converts an array of items with ids and parent ids to a nested tree in a performant way (time complexity `O(n)`). Runs in browsers and node.
 
 ## Why another package
 
-Other packages have stricter assumptions or are not as performant, as they often use multiple loops or recursion. For example:
+Other packages have stricter assumptions or are not as performant, as they often use nested loops or recursion. For example:
 
 [o-unflatten](https://www.npmjs.com/package/o-unflatten) requires the input to be ordered such that parent nodes always come before their children.
-[array-to-tree](https://www.npmjs.com/package/array-to-tree) uses two loops (runs with `O(2n)`), one for grouping all items by their parents, and one for creating the tree.
-[un-flatten-tree](https://www.npmjs.com/package/un-flatten-tree) uses 2 nested loops (runs even worse with `O(n^2)`).
+[un-flatten-tree](https://www.npmjs.com/package/un-flatten-tree) uses 2 nested loops (time complexity `O(n^2)`).
 
-This implementation does not require any order of items in the input array and focuses on runtime performance. By only using a single loop (runs with `O(n)`). It was inspired by [this discussion](http://stackoverflow.com/questions/444296/how-to-efficiently-build-a-tree-from-a-flat-structure) on StackOverflow.
+This implementation does not require any order of items in the input array and focuses on runtime performance. It uses an index and a single loop (time complexity `O(n)`). It was inspired by [this discussion](http://stackoverflow.com/questions/444296/how-to-efficiently-build-a-tree-from-a-flat-structure) on StackOverflow.
 
 ## Installation
 
