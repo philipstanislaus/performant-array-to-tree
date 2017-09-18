@@ -5,7 +5,7 @@ export interface Item {
 }
 
 export interface TreeItem {
-  data: Item
+  data: Item|null
   children: TreeItem[]
 }
 

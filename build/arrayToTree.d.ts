@@ -4,7 +4,7 @@ export interface Item {
     [key: string]: any;
 }
 export interface TreeItem {
-    data: Item;
+    data: Item | null;
     children: TreeItem[];
 }
 export interface Config {

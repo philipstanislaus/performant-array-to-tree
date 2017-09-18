@@ -6,7 +6,8 @@
     "sourceMap": true,
     "moduleResolution": "node",
     "outDir": "build",
-    "declaration": true
+    "declaration": true,
+    "strictNullChecks": true
   },
   "exclude": [
     "node_modules",
