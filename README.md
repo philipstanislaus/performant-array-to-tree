@@ -41,7 +41,7 @@ const tree = arrayToTree([
 ])
 ```
 
-Which results in the following Array:
+Which results in the following array:
 
 ```js
 [
