@@ -39,9 +39,12 @@ const tree = arrayToTree([
     { id: '1', parentId: '418', custom: 'ZZZz' },
     { id: '418', parentId: null, custom: 'ü'},
 ])
+```
 
-// output
-tree === [
+Which results in the following Array:
+
+```js
+[
     { data: { id: '4', parentId: null, custom: 'abc' }, children: [
         { data: { id: '31', parentId: '4', custom: '12' }, children: [] },
     ] },
@@ -69,9 +72,12 @@ const tree = arrayToTree([
     { num: '1', ref: '418', custom: 'ZZZz' },
     { num: '418', ref: null, custom: 'ü'},
 ], { id: 'num', parentId: 'ref' })
+```
 
-// output
-tree === [
+Which produces:
+
+```js
+[
     { data: { num: '4', ref: null, custom: 'abc' }, children: [
         { data: { num: '31', ref: '4', custom: '12' }, children: [] },
     ] },
