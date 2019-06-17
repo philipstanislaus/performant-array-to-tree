@@ -21,7 +21,6 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: |
-          yarn
           yarn run lint
           yarn run build
           yarn run test-and-send-cov-to-coveralls
