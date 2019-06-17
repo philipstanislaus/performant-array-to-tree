@@ -1,4 +1,5 @@
 version: 2
+
 jobs:
   build:
     docker:
@@ -24,3 +25,9 @@ jobs:
           yarn run lint
           yarn run build
           yarn run test-and-send-cov-to-coveralls
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
