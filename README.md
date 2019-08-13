@@ -19,7 +19,7 @@ Other packages have stricter assumptions or are not as performant, as they often
 [o-unflatten](https://www.npmjs.com/package/o-unflatten) requires the input to be ordered such that parent nodes always come before their children.
 [un-flatten-tree](https://www.npmjs.com/package/un-flatten-tree) uses 2 nested loops (time complexity `O(n^2)`).
 
-This implementation does not require any order of items in the input array and focuses on runtime performance. It uses an index and a single loop (time complexity `O(n)`). It was inspired by [this discussion](http://stackoverflow.com/questions/444296/how-to-efficiently-build-a-tree-from-a-flat-structure) on StackOverflow.
+This implementation does not require any order of items in the input array and focuses on runtime performance. It is the fastest amongst 4 different packages, you can find the benchmarks [here](https://github.com/philipstanislaus/array-to-tree-benchmarks). It uses an index and a single loop (time complexity `O(n)`). It was inspired by [this discussion](http://stackoverflow.com/questions/444296/how-to-efficiently-build-a-tree-from-a-flat-structure) on StackOverflow.
 
 ## Installation
 
