@@ -2,6 +2,9 @@
   "name": "performant-array-to-tree",
   "version": "1.1.4",
   "description": "Converts an array of items with ids and parent ids to a nested tree in a performant `O(n)` way. Runs in browsers and node.",
+  "keywords": [
+    "array to tree", "list to tree", "array-helper", "array-manipulations", "data-structures", "datastructures", "algorithms", "tree-structure", "array", "list", "collection", "pointer", "parent", "children", "child", "tree", "navigation", "nested", "util", "traverse", "descendants", "ancestors"
+  ],
   "main": "build/arrayToTree.min.js",
   "types": "build/arrayToTree.d.ts",
   "author": "Philip Stanislaus <stanislaus.philip@gmail.com>",
