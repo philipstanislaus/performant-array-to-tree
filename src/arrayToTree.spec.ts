@@ -33,7 +33,7 @@ describe('arrayToTree', () => {
         { num: '1', ref: '418', custom: 'ZZZz' },
         { num: '418', ref: null, custom: 'ü' },
       ] as any),
-      { id: 'num', parentId: 'ref', maintainStructure: false },
+      { id: 'num', parentId: 'ref' },
     )).to.deep.equal([
       {
         data: { num: '4', ref: null, custom: 'abc' }, children: [
@@ -72,7 +72,7 @@ describe('arrayToTree', () => {
     ])
   })
 
-  it('should work with nested objects structure maintained', () => {
+  it('should work with nested objects with null datafield', () => {
     expect(arrayToTree(
     ([
       { id: '4', parentId: null, custom: 'abc' },
@@ -81,7 +81,7 @@ describe('arrayToTree', () => {
       { id: '1', parentId: '418', custom: 'ZZZz' },
       { id: '418', parentId: null, custom: 'ü' },
     ] as any),
-      { id: 'id', parentId: 'parentId', maintainStructure: true },
+      { dataField: null },
     )).to.deep.equal([
       {
         id: '4', parentId: null, custom: 'abc', children: [
@@ -97,7 +97,7 @@ describe('arrayToTree', () => {
     ])
   })
 
-  it('should work with nested objects and custom keys structure maintained', () => {
+  it('should work with nested objects and custom keys with null datafield', () => {
     expect(arrayToTree(
       ([
         { num: '4', ref: null, custom: 'abc' },
@@ -106,7 +106,7 @@ describe('arrayToTree', () => {
         { num: '1', ref: '418', custom: 'ZZZz' },
         { num: '418', ref: null, custom: 'ü' },
       ] as any),
-      { id: 'num', parentId: 'ref', maintainStructure: true },
+      { id: 'num', parentId: 'ref', dataField: null },
     )).to.deep.equal([
       {
         num: '4', ref: null, custom: 'abc', children: [
@@ -122,7 +122,7 @@ describe('arrayToTree', () => {
     ])
   })
 
-  it('should ignore objects if parentId does not exist structure maintained', () => {
+  it('should ignore objects if parentId does not exist with null datafield', () => {
     expect(arrayToTree(
     ([
       { id: '4', parentId: null, custom: 'abc' },
@@ -131,7 +131,7 @@ describe('arrayToTree', () => {
       { id: '1', parentId: '418', custom: 'ZZZz' },
       { id: '418', parentId: null, custom: 'ü' },
     ] as any),
-      { id: 'id', parentId: 'parentId', maintainStructure: true },
+      { dataField: null },
     )).to.deep.equal([
       {
         id: '4', parentId: null, custom: 'abc', children: [

@@ -61,7 +61,7 @@ You can provide a second argument to arrayToTree with configuration options. Rig
 
 - `id`: key of the id field of the item
 - `parentId`: key of the parent's id field of the item
-- `maintainStructure`: boolean to keep the current structure of your data. Not put it in a `data` field
+- `dataField`: key which data will be put in. Make null if you don't want a container.
 
 Example:
 
@@ -72,7 +72,7 @@ const tree = arrayToTree([
     { num: '1941', ref: '418', custom: 'de' },
     { num: '1', ref: '418', custom: 'ZZZz' },
     { num: '418', ref: null, custom: 'ü'},
-], { id: 'num', parentId: 'ref', maintainStructure: false })
+], { id: 'num', parentId: 'ref' })
 ```
 
 Which produces:
@@ -93,24 +93,24 @@ Example:
 
 ```js
 const tree = arrayToTree([
-    { num: '4', ref: null, custom: 'abc' },
-    { num: '31', ref: '4', custom: '12' },
-    { num: '1941', ref: '418', custom: 'de' },
-    { num: '1', ref: '418', custom: 'ZZZz' },
-    { num: '418', ref: null, custom: 'ü'},
-], { id: 'num', parentId: 'ref', maintainStructure: true })
+    { id: '4', parentId: null, custom: 'abc' },
+    { id: '31', parentId: '4', custom: '12' },
+    { id: '1941', parentId: '418', custom: 'de' },
+    { id: '1', parentId: '418', custom: 'ZZZz' },
+    { id: '418', parentId: null, custom: 'ü'},
+], { dataField: null })
 ```
 
 Which produces:
 
 ```js
 [
-    { num: '4', ref: null, custom: 'abc', children: [
-        { num: '31', ref: '4', custom: '12', children: [] },
+    { id: '4', parentId: null, custom: 'abc', children: [
+        { id: '31', parentId: '4', custom: '12', children: [] },
     ] },
-    { num: '418', ref: null, custom: 'ü', children: [
-        { num: '1941', ref: '418', custom: 'de', children: [] },
-        { num: '1', ref: '418', custom: 'ZZZz', children: [] },
+    { id: '418', parentId: null, custom: 'ü', children: [
+        { id: '1941', parentId: '418', custom: 'de', children: [] },
+        { id: '1', parentId: '418', custom: 'ZZZz', children: [] },
     ] },
 ]
 ```

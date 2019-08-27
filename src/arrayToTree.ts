@@ -10,15 +10,15 @@ export interface TreeItem {
 }
 
 export interface Config {
-  id: string,
-  parentId: string,
-  maintainStructure: boolean,
+  id?: string,
+  parentId?: string,
+  dataField?: string | null,
 }
 
 /**
  * Unflattens an array to a tree with runtime O(n)
  */
-export function arrayToTree (items: Item[], config: Config = { id: 'id', parentId: 'parentId', maintainStructure: false }): TreeItem[] {
+export function arrayToTree (items: Item[], config: Config = { id: 'id', parentId: 'parentId', dataField: 'data' }): TreeItem[] {
   // the resulting unflattened tree
   const rootItems: TreeItem[] = []
 
@@ -30,24 +30,25 @@ export function arrayToTree (items: Item[], config: Config = { id: 'id', parentI
   // in the lookup object and fill it with the data of the parent later
   // if an item has no parentId, add it as a root element to rootItems
   for (const item of items) {
-    const itemId = item[config.id]
-    const parentId = item[config.parentId]
+    const itemId = config.id ? item[config.id] : item['id']
+    const parentId = config.parentId ? item[config.parentId] : item['parentId']
+    const dataField = config.dataField === undefined ? 'data' : config.dataField
 
     // look whether item already exists in the lookup table
     if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
       // item is not yet there, so add a preliminary item (its data will be added later)
-      if(config.maintainStructure){
-        lookup[itemId] = { children: [] }
-      } else {
-        lookup[itemId] = { data: null, children: [] }
-      }
+      
+      lookup[itemId] = { children: [] }
+      if(dataField){
+        lookup[itemId][dataField] = null
+      } 
     }
 
     // add the current item's data to the item in the lookup table
-    if(config.maintainStructure) {
-      lookup[itemId] = {children: lookup[itemId].children, ...item}
+    if (dataField) {
+      lookup[itemId][dataField] = item
     } else {
-      lookup[itemId].data = item
+      lookup[itemId] = { ...item, children: lookup[itemId].children}
     }
 
     const TreeItem = lookup[itemId]
@@ -61,10 +62,9 @@ export function arrayToTree (items: Item[], config: Config = { id: 'id', parentI
       // look whether the parent already exists in the lookup table
       if (!Object.prototype.hasOwnProperty.call(lookup, parentId)) {
         // parent is not yet there, so add a preliminary parent (its data will be added later)
-        if(config.maintainStructure){
-          lookup[parentId] = { children: [] }
-        } else {
-          lookup[parentId] = { data: null, children: [] }
+        lookup[parentId] = { children: [] }
+        if(dataField){
+          lookup[parentId][dataField] = null
         }
       }
 
