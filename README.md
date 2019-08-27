@@ -45,12 +45,12 @@ Which results in the following array:
 
 ```js
 [
-    { id: '4', parentId: null, custom: 'abc', children: [
-        { id: '31', parentId: '4', custom: '12', children: [] },
+    { data: { id: '4', parentId: null, custom: 'abc' }, children: [
+        { data: { id: '31', parentId: '4', custom: '12' }, children: [] },
     ] },
-    { id: '418', parentId: null, custom: 'ü', children: [
-        { id: '1941', parentId: '418', custom: 'de', children: [] },
-        { id: '1', parentId: '418', custom: 'ZZZz', children: [] },
+    { data: { id: '418', parentId: null, custom: 'ü'}, children: [
+        { data: { id: '1941', parentId: '418', custom: 'de' }, children: [] },
+        { data: { id: '1', parentId: '418', custom: 'ZZZz' }, children: [] },
     ] },
 ]
 ```
@@ -61,6 +61,7 @@ You can provide a second argument to arrayToTree with configuration options. Rig
 
 - `id`: key of the id field of the item
 - `parentId`: key of the parent's id field of the item
+- `maintainStructure`: boolean to keep the current structure of your data. Not put it in a `data` field
 
 Example:
 
@@ -71,7 +72,33 @@ const tree = arrayToTree([
     { num: '1941', ref: '418', custom: 'de' },
     { num: '1', ref: '418', custom: 'ZZZz' },
     { num: '418', ref: null, custom: 'ü'},
-], { id: 'num', parentId: 'ref' })
+], { id: 'num', parentId: 'ref', maintainStructure: false })
+```
+
+Which produces:
+
+```js
+[
+    { data: { num: '4', ref: null, custom: 'abc' }, children: [
+        { data: { num: '31', ref: '4', custom: '12' }, children: [] },
+    ] },
+    { data: { num: '418', ref: null, custom: 'ü'}, children: [
+        { data: { num: '1941', ref: '418', custom: 'de' }, children: [] },
+        { data: { num: '1', ref: '418', custom: 'ZZZz' }, children: [] },
+    ] },
+]
+```
+
+Example:
+
+```js
+const tree = arrayToTree([
+    { num: '4', ref: null, custom: 'abc' },
+    { num: '31', ref: '4', custom: '12' },
+    { num: '1941', ref: '418', custom: 'de' },
+    { num: '1', ref: '418', custom: 'ZZZz' },
+    { num: '418', ref: null, custom: 'ü'},
+], { id: 'num', parentId: 'ref', maintainStructure: true })
 ```
 
 Which produces:

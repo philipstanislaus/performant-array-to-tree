@@ -12,12 +12,13 @@ export interface TreeItem {
 export interface Config {
   id: string,
   parentId: string,
+  maintainStructure: boolean,
 }
 
 /**
  * Unflattens an array to a tree with runtime O(n)
  */
-export function arrayToTree (items: Item[], config: Config = { id: 'id', parentId: 'parentId' }): TreeItem[] {
+export function arrayToTree (items: Item[], config: Config = { id: 'id', parentId: 'parentId', maintainStructure: false }): TreeItem[] {
   // the resulting unflattened tree
   const rootItems: TreeItem[] = []
 
@@ -35,11 +36,19 @@ export function arrayToTree (items: Item[], config: Config = { id: 'id', parentI
     // look whether item already exists in the lookup table
     if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
       // item is not yet there, so add a preliminary item (its data will be added later)
-      lookup[itemId] = { children: [] }
+      if(config.maintainStructure){
+        lookup[itemId] = { children: [] }
+      } else {
+        lookup[itemId] = { data: null, children: [] }
+      }
     }
 
     // add the current item's data to the item in the lookup table
-    lookup[itemId] = {children: lookup[itemId].children, ...item}
+    if(config.maintainStructure) {
+      lookup[itemId] = {children: lookup[itemId].children, ...item}
+    } else {
+      lookup[itemId].data = item
+    }
 
     const TreeItem = lookup[itemId]
 
@@ -52,7 +61,11 @@ export function arrayToTree (items: Item[], config: Config = { id: 'id', parentI
       // look whether the parent already exists in the lookup table
       if (!Object.prototype.hasOwnProperty.call(lookup, parentId)) {
         // parent is not yet there, so add a preliminary parent (its data will be added later)
-        lookup[parentId] = { children: [] }
+        if(config.maintainStructure){
+          lookup[parentId] = { children: [] }
+        } else {
+          lookup[parentId] = { data: null, children: [] }
+        }
       }
 
       // add the current item to the parent
