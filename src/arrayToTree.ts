@@ -5,7 +5,7 @@ export interface Item {
 }
 
 export interface TreeItem {
-  [key: string]: any,
+  data?: Item | null
   children: TreeItem[]
 }
 
