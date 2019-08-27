@@ -11,14 +11,14 @@ describe('arrayToTree', () => {
       { id: '418', parentId: null, custom: 'ü' },
     ])).to.deep.equal([
       {
-        data: { id: '4', parentId: null, custom: 'abc' }, children: [
-          { data: { id: '31', parentId: '4', custom: '12' }, children: [] },
+        id: '4', parentId: null, custom: 'abc', children: [
+          {  id: '31', parentId: '4', custom: '12', children: [] },
         ],
       },
       {
-        data: { id: '418', parentId: null, custom: 'ü' }, children: [
-          { data: { id: '1941', parentId: '418', custom: 'de' }, children: [] },
-          { data: { id: '1', parentId: '418', custom: 'ZZZz' }, children: [] },
+        id: '418', parentId: null, custom: 'ü', children: [
+          { id: '1941', parentId: '418', custom: 'de', children: [] },
+          { id: '1', parentId: '418', custom: 'ZZZz', children: [] },
         ],
       },
     ])
@@ -36,14 +36,14 @@ describe('arrayToTree', () => {
       { id: 'num', parentId: 'ref' },
     )).to.deep.equal([
       {
-        data: { num: '4', ref: null, custom: 'abc' }, children: [
-          { data: { num: '31', ref: '4', custom: '12' }, children: [] },
+        num: '4', ref: null, custom: 'abc', children: [
+          { num: '31', ref: '4', custom: '12', children: [] },
         ],
       },
       {
-        data: { num: '418', ref: null, custom: 'ü' }, children: [
-          { data: { num: '1941', ref: '418', custom: 'de' }, children: [] },
-          { data: { num: '1', ref: '418', custom: 'ZZZz' }, children: [] },
+        num: '418', ref: null, custom: 'ü', children: [
+          { num: '1941', ref: '418', custom: 'de', children: [] },
+          { num: '1', ref: '418', custom: 'ZZZz', children: [] },
         ],
       },
     ])
@@ -59,14 +59,14 @@ describe('arrayToTree', () => {
       { id: '1313', parentId: '13', custom: 'Not existing' },
     ])).to.deep.equal([
       {
-        data: { id: '4', parentId: null, custom: 'abc' }, children: [
-          { data: { id: '31', parentId: '4', custom: '12' }, children: [] },
+        id: '4', parentId: null, custom: 'abc', children: [
+          { id: '31', parentId: '4', custom: '12', children: [] },
         ],
       },
       {
-        data: { id: '418', parentId: null, custom: 'ü' }, children: [
-          { data: { id: '1941', parentId: '418', custom: 'de' }, children: [] },
-          { data: { id: '1', parentId: '418', custom: 'ZZZz' }, children: [] },
+        id: '418', parentId: null, custom: 'ü', children: [
+          { id: '1941', parentId: '418', custom: 'de', children: [] },
+          { id: '1', parentId: '418', custom: 'ZZZz', children: [] },
         ],
       },
     ])
