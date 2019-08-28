@@ -59,9 +59,9 @@ Which results in the following array:
 
 You can provide a second argument to arrayToTree with configuration options. Right now, you can set the following:
 
-- `id`: key of the id field of the item
-- `parentId`: key of the parent's id field of the item
-- `dataField`: key which data will be put in. Make null if you don't want a container.
+- `id`: key of the id field of the item. Default: `"id"`
+- `parentId`: key of the parent's id field of the item. Default: `"parentId"`
+- `dataField`: key which will contain all properties/data of the origina items. Set to null if you don't want a container. Default: `"data"`
 
 Example:
 
@@ -89,7 +89,7 @@ Which produces:
 ]
 ```
 
-Example:
+Example without a data field:
 
 ```js
 const tree = arrayToTree([

@@ -1,24 +1,34 @@
 export interface Item {
-  id: string
-  parentId: string | null,
+  id?: string
+  parentId?: string | null,
   [key: string]: any,
 }
 
 export interface TreeItem {
-  data?: Item | null
+  id?: string,
+  parentId?: string | null,
+  [key: string]: Item | any,
   children: TreeItem[]
 }
 
 export interface Config {
-  id?: string,
-  parentId?: string,
-  dataField?: string | null,
+  id: string,
+  parentId: string,
+  dataField: string | null,
+}
+
+const defaultConfig: Config = {
+  id: 'id',
+  parentId: 'parentId',
+  dataField: 'data',
 }
 
 /**
  * Unflattens an array to a tree with runtime O(n)
  */
-export function arrayToTree (items: Item[], config: Config = { id: 'id', parentId: 'parentId', dataField: 'data' }): TreeItem[] {
+export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeItem[] {
+  const conf: Config = { ...defaultConfig, ...config }
+
   // the resulting unflattened tree
   const rootItems: TreeItem[] = []
 
@@ -30,25 +40,20 @@ export function arrayToTree (items: Item[], config: Config = { id: 'id', parentI
   // in the lookup object and fill it with the data of the parent later
   // if an item has no parentId, add it as a root element to rootItems
   for (const item of items) {
-    const itemId = config.id ? item[config.id] : item['id']
-    const parentId = config.parentId ? item[config.parentId] : item['parentId']
-    const dataField = config.dataField === undefined ? 'data' : config.dataField
+    const itemId = item[conf.id]
+    const parentId = item[conf.parentId]
 
     // look whether item already exists in the lookup table
     if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
       // item is not yet there, so add a preliminary item (its data will be added later)
-      
       lookup[itemId] = { children: [] }
-      if(dataField){
-        lookup[itemId][dataField] = null
-      } 
     }
 
     // add the current item's data to the item in the lookup table
-    if (dataField) {
-      lookup[itemId][dataField] = item
+    if (conf.dataField) {
+      lookup[itemId][conf.dataField] = item
     } else {
-      lookup[itemId] = { ...item, children: lookup[itemId].children}
+      lookup[itemId] = { ...item, children: lookup[itemId].children }
     }
 
     const TreeItem = lookup[itemId]
@@ -63,9 +68,6 @@ export function arrayToTree (items: Item[], config: Config = { id: 'id', parentI
       if (!Object.prototype.hasOwnProperty.call(lookup, parentId)) {
         // parent is not yet there, so add a preliminary parent (its data will be added later)
         lookup[parentId] = { children: [] }
-        if(dataField){
-          lookup[parentId][dataField] = null
-        }
       }
 
       // add the current item to the parent
