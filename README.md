@@ -61,7 +61,7 @@ You can provide a second argument to arrayToTree with configuration options. Rig
 
 - `id`: key of the id field of the item. Default: `"id"`
 - `parentId`: key of the parent's id field of the item. Default: `"parentId"`
-- `dataField`: key which will contain all properties/data of the origina items. Set to null if you don't want a container. Default: `"data"`
+- `dataField`: key which will contain all properties/data of the original items. Set to null if you don't want a container. Default: `"data"`
 
 Example:
 
