@@ -89,7 +89,7 @@ Which produces:
 ]
 ```
 
-Example without a data field:
+Example with no data field:
 
 ```js
 const tree = arrayToTree([
