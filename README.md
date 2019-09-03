@@ -59,8 +59,9 @@ Which results in the following array:
 
 You can provide a second argument to arrayToTree with configuration options. Right now, you can set the following:
 
-- `id`: key of the id field of the item
-- `parentId`: key of the parent's id field of the item
+- `id`: key of the id field of the item. Default: `"id"`
+- `parentId`: key of the parent's id field of the item. Default: `"parentId"`
+- `dataField`: key which will contain all properties/data of the origina items. Set to null if you don't want a container. Default: `"data"`
 
 Example:
 
@@ -84,6 +85,32 @@ Which produces:
     { data: { num: '418', ref: null, custom: 'ü'}, children: [
         { data: { num: '1941', ref: '418', custom: 'de' }, children: [] },
         { data: { num: '1', ref: '418', custom: 'ZZZz' }, children: [] },
+    ] },
+]
+```
+
+Example with no data field:
+
+```js
+const tree = arrayToTree([
+    { id: '4', parentId: null, custom: 'abc' },
+    { id: '31', parentId: '4', custom: '12' },
+    { id: '1941', parentId: '418', custom: 'de' },
+    { id: '1', parentId: '418', custom: 'ZZZz' },
+    { id: '418', parentId: null, custom: 'ü'},
+], { dataField: null })
+```
+
+Which produces:
+
+```js
+[
+    { id: '4', parentId: null, custom: 'abc', children: [
+        { id: '31', parentId: '4', custom: '12', children: [] },
+    ] },
+    { id: '418', parentId: null, custom: 'ü', children: [
+        { id: '1941', parentId: '418', custom: 'de', children: [] },
+        { id: '1', parentId: '418', custom: 'ZZZz', children: [] },
     ] },
 ]
 ```
