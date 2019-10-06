@@ -148,8 +148,6 @@ describe('arrayToTree', () => {
     ])
   })
 
-  
-
   it('should treat objects with missing parentId as root objects', () => {
     expect(arrayToTree([
       { id: '4', custom: 'abc' },
