@@ -12,9 +12,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var defaultConfig = {
-    id: "id",
-    parentId: "parentId",
-    dataField: "data"
+    id: 'id',
+    parentId: 'parentId',
+    dataField: 'data',
 };
 /**
  * Unflattens an array to a tree with runtime O(n)
