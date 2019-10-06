@@ -9,8 +9,5 @@
     "declaration": true,
     "strictNullChecks": true
   },
-  "exclude": [
-    "node_modules",
-    "typings"
-  ]
+  "exclude": ["node_modules", "typings", "**/*.spec.ts"]
 }

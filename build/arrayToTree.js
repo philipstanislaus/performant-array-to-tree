@@ -12,9 +12,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var defaultConfig = {
-    id: 'id',
-    parentId: 'parentId',
-    dataField: 'data',
+    id: "id",
+    parentId: "parentId",
+    dataField: "data"
 };
 /**
  * Unflattens an array to a tree with runtime O(n)
@@ -47,7 +47,7 @@ function arrayToTree(items, config) {
             lookup[itemId] = __assign({}, item, { children: lookup[itemId].children });
         }
         var TreeItem = lookup[itemId];
-        if (parentId === null) {
+        if (!parentId) {
             // is a root item
             rootItems.push(TreeItem);
         }
