@@ -58,7 +58,7 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
 
     const TreeItem = lookup[itemId]
 
-    if (parentId === null) {
+    if (!parentId) {
       // is a root item
       rootItems.push(TreeItem)
     } else {

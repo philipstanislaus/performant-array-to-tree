@@ -97,6 +97,31 @@ describe('arrayToTree', () => {
     ])
   })
 
+  it('should work with nested objects with dataField set to null and some parentIds not existing', () => {
+    expect(arrayToTree(
+      ([
+        { id: '4', custom: 'abc' },
+        { id: '31', parentId: '4', custom: '12' },
+        { id: '1941', parentId: '418', custom: 'de' },
+        { id: '1', parentId: '418', custom: 'ZZZz' },
+        { id: '418', custom: 'ü' },
+      ]),
+      { id: 'id', parentId: 'parentId', dataField: null },
+    )).to.deep.equal([
+      {
+        id: '4', custom: 'abc', children: [
+          { id: '31', parentId: '4', custom: '12', children: [] },
+        ],
+      },
+      {
+        id: '418', custom: 'ü', children: [
+          { id: '1941', parentId: '418', custom: 'de', children: [] },
+          { id: '1', parentId: '418', custom: 'ZZZz', children: [] },
+        ],
+      },
+    ])
+  })
+
   it('should work with nested objects and custom keys with dataField set to null', () => {
     expect(arrayToTree(
       ([
