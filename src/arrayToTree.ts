@@ -1,12 +1,12 @@
 export interface Item {
-  id?: string
-  parentId?: string | null,
+  id?: string | number
+  parentId?: string | number | null,
   [key: string]: any,
 }
 
 export interface TreeItem {
-  id?: string,
-  parentId?: string | null,
+  id?: string | number,
+  parentId?: string | number | null,
   [key: string]: Item | any,
   children: TreeItem[]
 }
