@@ -14,14 +14,14 @@ export interface Config {
   id: string,
   parentId: string,
   dataField: string | null,
-  nodesField: string
+  childrenField: string
 }
 
 const defaultConfig: Config = {
   id: 'id',
   parentId: 'parentId',
   dataField: 'data',
-  nodesField: 'children',
+  childrenField: 'children',
 }
 
 /**
@@ -47,14 +47,14 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
     // look whether item already exists in the lookup table
     if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
       // item is not yet there, so add a preliminary item (its data will be added later)
-      lookup[itemId] = { [conf.nodesField]: [] }
+      lookup[itemId] = { [conf.childrenField]: [] }
     }
 
     // add the current item's data to the item in the lookup table
     if (conf.dataField) {
       lookup[itemId][conf.dataField] = item
     } else {
-      lookup[itemId] = { ...item, [conf.nodesField]: lookup[itemId][conf.nodesField] }
+      lookup[itemId] = { ...item, [conf.childrenField]: lookup[itemId][conf.childrenField] }
     }
 
     const TreeItem = lookup[itemId]
@@ -68,11 +68,11 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
       // look whether the parent already exists in the lookup table
       if (!Object.prototype.hasOwnProperty.call(lookup, parentId)) {
         // parent is not yet there, so add a preliminary parent (its data will be added later)
-        lookup[parentId] = { [conf.nodesField]: [] }
+        lookup[parentId] = { [conf.childrenField]: [] }
       }
 
       // add the current item to the parent
-      lookup[parentId][conf.nodesField].push(TreeItem)
+      lookup[parentId][conf.childrenField].push(TreeItem)
     }
   }
 

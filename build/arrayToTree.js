@@ -15,7 +15,7 @@ var defaultConfig = {
     id: 'id',
     parentId: 'parentId',
     dataField: 'data',
-    nodesField: 'children',
+    childrenField: 'children',
 };
 /**
  * Unflattens an array to a tree with runtime O(n)
@@ -39,14 +39,14 @@ function arrayToTree(items, config) {
         // look whether item already exists in the lookup table
         if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
             // item is not yet there, so add a preliminary item (its data will be added later)
-            lookup[itemId] = (_a = {}, _a[conf.nodesField] = [], _a);
+            lookup[itemId] = (_a = {}, _a[conf.childrenField] = [], _a);
         }
         // add the current item's data to the item in the lookup table
         if (conf.dataField) {
             lookup[itemId][conf.dataField] = item;
         }
         else {
-            lookup[itemId] = __assign({}, item, (_b = {}, _b[conf.nodesField] = lookup[itemId][conf.nodesField], _b));
+            lookup[itemId] = __assign({}, item, (_b = {}, _b[conf.childrenField] = lookup[itemId][conf.childrenField], _b));
         }
         var TreeItem = lookup[itemId];
         if (parentId === null || parentId === undefined) {
@@ -58,10 +58,10 @@ function arrayToTree(items, config) {
             // look whether the parent already exists in the lookup table
             if (!Object.prototype.hasOwnProperty.call(lookup, parentId)) {
                 // parent is not yet there, so add a preliminary parent (its data will be added later)
-                lookup[parentId] = (_c = {}, _c[conf.nodesField] = [], _c);
+                lookup[parentId] = (_c = {}, _c[conf.childrenField] = [], _c);
             }
             // add the current item to the parent
-            lookup[parentId][conf.nodesField].push(TreeItem);
+            lookup[parentId][conf.childrenField].push(TreeItem);
         }
     }
     return rootItems;

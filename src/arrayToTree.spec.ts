@@ -55,7 +55,7 @@ describe('arrayToTree', () => {
         { num: '1', ref: '418', custom: 'ZZZz' },
         { num: '418', ref: null, custom: 'ü' },
       ]),
-      { id: 'num', parentId: 'ref', nodesField: 'nodes' },
+      { id: 'num', parentId: 'ref', childrenField: 'nodes' },
     )).to.deep.equal([
       {
         data: { num: '4', ref: null, custom: 'abc' }, nodes: [

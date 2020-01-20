@@ -12,7 +12,7 @@ export interface Config {
     id: string;
     parentId: string;
     dataField: string | null;
-    nodesField: string;
+    childrenField: string;
 }
 /**
  * Unflattens an array to a tree with runtime O(n)

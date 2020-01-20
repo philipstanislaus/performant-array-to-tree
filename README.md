@@ -61,8 +61,8 @@ You can provide a second argument to arrayToTree with configuration options. Rig
 
 - `id`: key of the id field of the item. Default: `"id"`
 - `parentId`: key of the parent's id field of the item. Default: `"parentId"`
+- `childrenField`: key which will contain all child nodes of the parent node. Default: `"children"`
 - `dataField`: key which will contain all properties/data of the original items. Set to null if you don't want a container. Default: `"data"`
-- `nodesField`: key which will contain all child nodes of the parent node . Default: `"children"`
 
 Example:
 
@@ -73,7 +73,7 @@ const tree = arrayToTree([
     { num: '1941', ref: '418', custom: 'de' },
     { num: '1', ref: '418', custom: 'ZZZz' },
     { num: '418', ref: null, custom: 'ü'},
-], { id: 'num', parentId: 'ref', nodesField: 'nodes' })
+], { id: 'num', parentId: 'ref', childrenField: 'nodes' })
 ```
 
 Which produces:
