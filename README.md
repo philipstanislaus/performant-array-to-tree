@@ -61,6 +61,7 @@ You can provide a second argument to arrayToTree with configuration options. Rig
 
 - `id`: key of the id field of the item. Default: `"id"`
 - `parentId`: key of the parent's id field of the item. Default: `"parentId"`
+- `childrenField`: key which will contain all child nodes of the parent node. Default: `"children"`
 - `dataField`: key which will contain all properties/data of the original items. Set to null if you don't want a container. Default: `"data"`
 
 Example:
@@ -72,19 +73,19 @@ const tree = arrayToTree([
     { num: '1941', ref: '418', custom: 'de' },
     { num: '1', ref: '418', custom: 'ZZZz' },
     { num: '418', ref: null, custom: 'ü'},
-], { id: 'num', parentId: 'ref' })
+], { id: 'num', parentId: 'ref', childrenField: 'nodes' })
 ```
 
 Which produces:
 
 ```js
 [
-    { data: { num: '4', ref: null, custom: 'abc' }, children: [
-        { data: { num: '31', ref: '4', custom: '12' }, children: [] },
+    { data: { num: '4', ref: null, custom: 'abc' }, nodes: [
+        { data: { num: '31', ref: '4', custom: '12' }, nodes: [] },
     ] },
-    { data: { num: '418', ref: null, custom: 'ü'}, children: [
-        { data: { num: '1941', ref: '418', custom: 'de' }, children: [] },
-        { data: { num: '1', ref: '418', custom: 'ZZZz' }, children: [] },
+    { data: { num: '418', ref: null, custom: 'ü'}, nodes: [
+        { data: { num: '1941', ref: '418', custom: 'de' }, nodes: [] },
+        { data: { num: '1', ref: '418', custom: 'ZZZz' }, nodes: [] },
     ] },
 ]
 ```

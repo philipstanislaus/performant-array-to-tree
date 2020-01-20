@@ -6,13 +6,13 @@ export interface Item {
 export interface TreeItem {
     id?: string | number;
     parentId?: string | number | null;
-    [key: string]: Item | any;
-    children: TreeItem[];
+    [key: string]: Item | TreeItem[] | any;
 }
 export interface Config {
     id: string;
     parentId: string;
     dataField: string | null;
+    childrenField: string;
 }
 /**
  * Unflattens an array to a tree with runtime O(n)
