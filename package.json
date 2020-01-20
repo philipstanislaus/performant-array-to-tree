@@ -1,6 +1,6 @@
 {
   "name": "performant-array-to-tree",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Converts an array of items with ids and parent ids to a nested tree in a performant `O(n)` way. Runs in browsers and node.",
   "keywords": [
     "array to tree",

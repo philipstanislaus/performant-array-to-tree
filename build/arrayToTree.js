@@ -47,7 +47,7 @@ function arrayToTree(items, config) {
             lookup[itemId] = __assign({}, item, { children: lookup[itemId].children });
         }
         var TreeItem = lookup[itemId];
-        if (!parentId) {
+        if (parentId === null || parentId === undefined) {
             // is a root item
             rootItems.push(TreeItem);
         }
