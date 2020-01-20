@@ -7,7 +7,8 @@
     "moduleResolution": "node",
     "outDir": "build",
     "declaration": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "lib": ["ES6"]
   },
   "exclude": [
     "node_modules",

@@ -23,7 +23,7 @@ var defaultConfig = {
 function arrayToTree(items, config) {
     var _a, _b, _c;
     if (config === void 0) { config = {}; }
-    var conf = __assign({}, defaultConfig, config);
+    var conf = __assign(__assign({}, defaultConfig), config);
     // the resulting unflattened tree
     var rootItems = [];
     // stores all already processed items with ther ids as key so we can easily look them up
@@ -46,7 +46,7 @@ function arrayToTree(items, config) {
             lookup[itemId][conf.dataField] = item;
         }
         else {
-            lookup[itemId] = __assign({}, item, (_b = {}, _b[conf.childrenField] = lookup[itemId][conf.childrenField], _b));
+            lookup[itemId] = __assign(__assign({}, item), (_b = {}, _b[conf.childrenField] = lookup[itemId][conf.childrenField], _b));
         }
         var TreeItem = lookup[itemId];
         if (parentId === null || parentId === undefined) {
