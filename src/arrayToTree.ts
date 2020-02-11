@@ -14,7 +14,8 @@ export interface Config {
   id: string,
   parentId: string,
   dataField: string | null,
-  childrenField: string
+  childrenField: string,
+  throwIfOrphans: boolean,
 }
 
 const defaultConfig: Config = {
@@ -22,6 +23,7 @@ const defaultConfig: Config = {
   parentId: 'parentId',
   dataField: 'data',
   childrenField: 'children',
+  throwIfOrphans: false,
 }
 
 /**
@@ -33,8 +35,12 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
   // the resulting unflattened tree
   const rootItems: TreeItem[] = []
 
-  // stores all already processed items with ther ids as key so we can easily look them up
+  // stores all already processed items with their ids as key so we can easily look them up
   const lookup: { [id: string]: TreeItem } = {}
+
+  // stores all item ids that have not been added to the resulting unflattened tree yet
+  // this is an opt-in property, since it has a slight runtime overhead
+  const orphanIds: null | Set<string | number> = config.throwIfOrphans ? new Set() : null
 
   // idea of this loop:
   // whenever an item has a parent, but the parent is not yet in the lookup object, we store a preliminary parent
@@ -49,6 +55,9 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
       // item is not yet there, so add a preliminary item (its data will be added later)
       lookup[itemId] = { [conf.childrenField]: [] }
     }
+
+    // if we track orphans, delete this item from the orphan set if it is in it
+    if (orphanIds) { orphanIds.delete(parentId) }
 
     // add the current item's data to the item in the lookup table
     if (conf.dataField) {
@@ -69,11 +78,20 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
       if (!Object.prototype.hasOwnProperty.call(lookup, parentId)) {
         // parent is not yet there, so add a preliminary parent (its data will be added later)
         lookup[parentId] = { [conf.childrenField]: [] }
+
+        // if we track orphans, add the generated parent to the orphan list
+        if (orphanIds) { orphanIds.add(parentId) }
       }
 
       // add the current item to the parent
       lookup[parentId][conf.childrenField].push(TreeItem)
     }
+  }
+
+  if (orphanIds?.size) {
+    throw new Error(`The items array contains orphans that point to the following parentIds: ` +
+      `[${Array.from(orphanIds)}]. These parentIds do not exist in the items array. Hint: prevent orphans to result ` +
+      `in an error by passing the following option: { throwIfOrphans: false }`)
   }
 
   return rootItems

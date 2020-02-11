@@ -216,6 +216,33 @@ describe('arrayToTree', () => {
     ])
   })
 
+  it('should not throw if orphans exist but throwIfOrphans is false', () => {
+    expect(arrayToTree([
+      { id: '4', parentId: null, custom: 'abc' },
+      { id: '31', parentId: '4', custom: '12' },
+      { id: '418', parentId: '6', custom: 'ü' },
+    ])).to.deep.equal([
+      {
+        data: { id: '4', parentId: null, custom: 'abc' }, children: [
+          { data: { id: '31', parentId: '4', custom: '12' }, children: [] },
+        ],
+      },
+    ])
+  })
+
+  it('should throw if orphans exist and throwIfOrphans is true', () => {
+    expect(() => arrayToTree([
+      { id: '4', parentId: null, custom: 'abc' },
+      { id: '31', parentId: '4', custom: '12' },
+      { id: '418', parentId: '6', custom: 'ü' },
+      { id: '419', parentId: '418', custom: 'ü' },
+      { id: '420', parentId: '7', custom: 'ü' },
+    ], { throwIfOrphans: true })).to.throw(
+      'The items array contains orphans that point to the following parentIds: [6,7]. ' +
+      'These parentIds do not exist in the items array. ' +
+      'Hint: prevent orphans to result in an error by passing the following option: { throwIfOrphans: false }')
+  })
+
   it('should work with empty inputs', () => {
     expect(arrayToTree([])).to.deep.equal([])
   })

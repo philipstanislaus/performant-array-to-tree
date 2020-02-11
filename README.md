@@ -63,6 +63,7 @@ You can provide a second argument to arrayToTree with configuration options. Rig
 - `parentId`: key of the parent's id field of the item. Default: `"parentId"`
 - `childrenField`: key which will contain all child nodes of the parent node. Default: `"children"`
 - `dataField`: key which will contain all properties/data of the original items. Set to null if you don't want a container. Default: `"data"`
+- `throwIfOrphans`: option to throw an error if the array of items contains one or more items that have no parents in the array. This option has a small runtime penalty, so it's disabled by default. When enabled, the function will throw an error containing the parentIds that were not found in the items array. When disabled, the function will just ignore orphans and not add them to the tree. Default: `false`
 
 Example:
 
