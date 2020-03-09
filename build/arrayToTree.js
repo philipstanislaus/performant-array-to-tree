@@ -48,7 +48,7 @@ function arrayToTree(items, config) {
         }
         // if we track orphans, delete this item from the orphan set if it is in it
         if (orphanIds) {
-            orphanIds.delete(parentId);
+            orphanIds.delete(itemId);
         }
         // add the current item's data to the item in the lookup table
         if (conf.dataField) {

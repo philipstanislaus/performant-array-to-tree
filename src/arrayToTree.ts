@@ -57,7 +57,7 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
     }
 
     // if we track orphans, delete this item from the orphan set if it is in it
-    if (orphanIds) { orphanIds.delete(parentId) }
+    if (orphanIds) { orphanIds.delete(itemId) }
 
     // add the current item's data to the item in the lookup table
     if (conf.dataField) {

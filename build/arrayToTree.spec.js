@@ -220,6 +220,21 @@ describe('arrayToTree', function () {
             'These parentIds do not exist in the items array. ' +
             'Hint: prevent orphans to result in an error by passing the following option: { throwIfOrphans: false }');
     });
+    it('should not throw if no orphans exist and throwIfOrphans is true, but the order is different (see #18)', function () {
+        chai_1.expect(arrayToTree_1.arrayToTree([
+            { id: '2', parentId: 'root', foo: 'bar' },
+            { id: '1-1', parentId: '1', foo: 'bar' },
+            { id: '1', parentId: 'root', foo: 'bar' },
+            { id: 'root', parentId: null, bar: 'bar' },
+        ], { dataField: null, throwIfOrphans: true })).to.deep.equal([
+            { id: "root", parentId: null, bar: "bar", children: [
+                    { id: "2", parentId: "root", foo: "bar", children: [] },
+                    { id: "1", parentId: "root", foo: "bar", children: [
+                            { id: "1-1", parentId: "1", foo: "bar", children: [] },
+                        ] },
+                ] },
+        ]);
+    });
     it('should work with empty inputs', function () {
         chai_1.expect(arrayToTree_1.arrayToTree([])).to.deep.equal([]);
     });
