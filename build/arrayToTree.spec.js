@@ -227,10 +227,10 @@ describe('arrayToTree', function () {
             { id: '1', parentId: 'root', foo: 'bar' },
             { id: 'root', parentId: null, bar: 'bar' },
         ], { dataField: null, throwIfOrphans: true })).to.deep.equal([
-            { id: "root", parentId: null, bar: "bar", children: [
-                    { id: "2", parentId: "root", foo: "bar", children: [] },
-                    { id: "1", parentId: "root", foo: "bar", children: [
-                            { id: "1-1", parentId: "1", foo: "bar", children: [] },
+            { id: 'root', parentId: null, bar: 'bar', children: [
+                    { id: '2', parentId: 'root', foo: 'bar', children: [] },
+                    { id: '1', parentId: 'root', foo: 'bar', children: [
+                            { id: '1-1', parentId: '1', foo: 'bar', children: [] },
                         ] },
                 ] },
         ]);
