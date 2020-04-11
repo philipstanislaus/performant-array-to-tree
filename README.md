@@ -59,8 +59,8 @@ Which results in the following array:
 
 You can provide a second argument to arrayToTree with configuration options. Right now, you can set the following:
 
-- `id`: key of the id field of the item. Default: `"id"`
-- `parentId`: key of the parent's id field of the item. Default: `"parentId"`
+- `id`: key of the id field of the item. Default: `"id"`. It also works with nested properties (`"myobject.nestedObject.id"`), see examples below
+- `parentId`: key of the parent's id field of the item. Default: `"parentId"`. It also works with nested properties (`"myobject.nestedObject.parentId"`), see examples below
 - `childrenField`: key which will contain all child nodes of the parent node. Default: `"children"`
 - `dataField`: key which will contain all properties/data of the original items. Set to null if you don't want a container. Default: `"data"`
 - `throwIfOrphans`: option to throw an error if the array of items contains one or more items that have no parents in the array. This option has a small runtime penalty, so it's disabled by default. When enabled, the function will throw an error containing the parentIds that were not found in the items array. When disabled, the function will just ignore orphans and not add them to the tree. Default: `false`
@@ -88,6 +88,41 @@ Which produces:
         { data: { num: '1941', ref: '418', custom: 'de' }, nodes: [] },
         { data: { num: '1', ref: '418', custom: 'ZZZz' }, nodes: [] },
     ] },
+]
+```
+
+Nested properties (id and/or parentId are nested inside your objects)
+```js
+const tree = arrayToTree([
+    { nestedObject: { num: '4',     ref: null,  custom: 'abc' } },
+    { nestedObject: { num: '31',    ref: '4',   custom: '12' } },
+    { nestedObject: { num: '1941',  ref: '418', custom: 'de' } },
+    { nestedObject: { num: '1',     ref: '418', custom: 'ZZZz' } },
+    { nestedObject: { num: '418',   ref: null,  custom: 'ü'} },
+], { id: 'nestedObject.num', parentId: 'nestedObject.ref', childrenField: 'nodes' })
+```
+
+Which produces:
+
+```js
+[
+    {
+        data: nestedObject {
+            { num: '4', ref: null, custom: 'abc' },
+            nodes: [
+                { data: nestedObject { { num: '31', ref: '4', custom: '12' }, nodes: [] } },
+            ]
+        }
+    },
+    {
+        data: nestedObject {
+            { num: '418', ref: null, custom: 'ü'},
+            nodes: [
+                { data: nestedObject { { num: '1941', ref: '418', custom: 'de' }, nodes: [] } },
+                { data: nestedObject { { num: '1', ref: '418', custom: 'ZZZz' }, nodes: [] } },
+            ]
+        }
+    },
 ]
 ```
 
