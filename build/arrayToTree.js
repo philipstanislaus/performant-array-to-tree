@@ -17,6 +17,7 @@ var defaultConfig = {
     dataField: 'data',
     childrenField: 'children',
     throwIfOrphans: false,
+    rootParentIds: [null, undefined, ''],
 };
 /**
  * Unflattens an array to a tree with runtime O(n)
@@ -26,6 +27,7 @@ function arrayToTree(items, config) {
     if (config === void 0) { config = {}; }
     var _d;
     var conf = __assign(__assign({}, defaultConfig), config);
+    conf.rootParentIds = defaultConfig.rootParentIds.concat(config.rootParentIds || []);
     // the resulting unflattened tree
     var rootItems = [];
     // stores all already processed items with their ids as key so we can easily look them up
@@ -58,7 +60,7 @@ function arrayToTree(items, config) {
             lookup[itemId] = __assign(__assign({}, item), (_b = {}, _b[conf.childrenField] = lookup[itemId][conf.childrenField], _b));
         }
         var TreeItem = lookup[itemId];
-        if (parentId === null || parentId === undefined || parentId === '') {
+        if (conf.rootParentIds.includes(parentId)) {
             // is a root item
             rootItems.push(TreeItem);
         }

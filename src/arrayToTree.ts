@@ -16,6 +16,7 @@ export interface Config {
   dataField: string | null,
   childrenField: string,
   throwIfOrphans: boolean,
+  rootParentIds: (string | undefined | null)[],
 }
 
 const defaultConfig: Config = {
@@ -24,6 +25,7 @@ const defaultConfig: Config = {
   dataField: 'data',
   childrenField: 'children',
   throwIfOrphans: false,
+  rootParentIds: [null, undefined, ''],
 }
 
 /**
@@ -31,6 +33,7 @@ const defaultConfig: Config = {
  */
 export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeItem[] {
   const conf: Config = { ...defaultConfig, ...config }
+  conf.rootParentIds = defaultConfig.rootParentIds.concat(config.rootParentIds || [])
 
   // the resulting unflattened tree
   const rootItems: TreeItem[] = []
@@ -68,7 +71,7 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
 
     const TreeItem = lookup[itemId]
 
-    if (parentId === null || parentId === undefined || parentId === '') {
+    if (conf.rootParentIds.includes(parentId)) {
       // is a root item
       rootItems.push(TreeItem)
     } else {

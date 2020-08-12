@@ -8,7 +8,7 @@
     "outDir": "build",
     "declaration": true,
     "strictNullChecks": true,
-    "lib": ["ES6"]
+    "lib": ["ES6", "ES2016.Array.Include"]
   },
   "exclude": [
     "node_modules",

@@ -14,6 +14,7 @@ export interface Config {
     dataField: string | null;
     childrenField: string;
     throwIfOrphans: boolean;
+    rootParentIds: (string | undefined | null)[];
 }
 /**
  * Unflattens an array to a tree with runtime O(n)
