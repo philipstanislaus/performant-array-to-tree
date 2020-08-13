@@ -27,7 +27,6 @@ function arrayToTree(items, config) {
     if (config === void 0) { config = {}; }
     var _d;
     var conf = __assign(__assign({}, defaultConfig), config);
-    conf.rootParentIds = defaultConfig.rootParentIds.concat(config.rootParentIds || []);
     // the resulting unflattened tree
     var rootItems = [];
     // stores all already processed items with their ids as key so we can easily look them up
@@ -60,7 +59,7 @@ function arrayToTree(items, config) {
             lookup[itemId] = __assign(__assign({}, item), (_b = {}, _b[conf.childrenField] = lookup[itemId][conf.childrenField], _b));
         }
         var TreeItem = lookup[itemId];
-        if (conf.rootParentIds.includes(parentId)) {
+        if (conf.rootParentIds.indexOf(parentId) !== -1) {
             // is a root item
             rootItems.push(TreeItem);
         }

@@ -196,16 +196,16 @@ describe('arrayToTree', function () {
             },
         ]);
     });
-    it('should treat objects with non-zero length string as parentId as root objects', function () {
+    it('should treat objects with non-zero length string as parentId as root objects if these parent ids are in rootParentIds', function () {
         chai_1.expect(arrayToTree_1.arrayToTree([
             { id: '4', parentId: 'orphan1', custom: 'abc' },
             { id: '31', parentId: '4', custom: '12' },
             { id: '1941', parentId: '418', custom: 'de' },
             { id: '1', parentId: '418', custom: 'ZZZz' },
             { id: '418', parentId: 'orphan2', custom: 'ü' },
-            { id: '1313', parentId: '13', custom: 'will be ignored' },
+            { id: '1313', parentId: 'orphan3', custom: 'will be ignored' },
         ], {
-            rootParentIds: ['orphan1', 'orphan2'],
+            rootParentIds: [null, undefined, '', 'orphan1', 'orphan2'],
         })).to.deep.equal([
             {
                 data: { id: '4', parentId: 'orphan1', custom: 'abc' }, children: [
@@ -267,11 +267,44 @@ describe('arrayToTree', function () {
             { id: '419', parentId: '418', custom: 'ü' },
             { id: '420', parentId: '7', custom: 'ü' },
         ], {
-            rootParentIds: ['6'],
+            rootParentIds: [null, undefined, '', '6'],
             throwIfOrphans: true,
         }); }).to.throw('The items array contains orphans that point to the following parentIds: [7]. ' +
             'These parentIds do not exist in the items array. ' +
             'Hint: prevent orphans to result in an error by passing the following option: { throwIfOrphans: false }');
+    });
+    it('should throw if a node has parentId that both exists in another node and is in rootParentIds', function () {
+        chai_1.expect(arrayToTree_1.arrayToTree([
+            { id: 'fakeOrphan', parentId: null },
+            { id: 'aaa', parentId: 'fakeOrphan' },
+            { id: 'bbb', parentId: 'aaa' },
+            { id: 'ccc', parentId: 'bbb' },
+        ], {
+            rootParentIds: [null, undefined, '', 'fakeOrphan'],
+            throwIfOrphans: true,
+        })).to.deep.equal([
+            { data: { id: 'fakeOrphan', parentId: null }, children: [] },
+            {
+                data: { id: 'aaa', parentId: 'fakeOrphan' }, children: [
+                    {
+                        data: { id: 'bbb', parentId: 'aaa' }, children: [
+                            { data: { id: 'ccc', parentId: 'bbb' }, children: [] },
+                        ],
+                    },
+                ],
+            },
+        ]);
+    });
+    it('should default rootParentIds be replaced by the value user passd in', function () {
+        chai_1.expect(arrayToTree_1.arrayToTree([
+            { id: '4', parentId: null, custom: 'abc' },
+            { id: '31', parentId: '4', custom: '12' },
+            { id: '418', parentId: '6', custom: 'ü' },
+        ], {
+            rootParentIds: ['6'],
+        })).to.deep.equal([
+            { data: { id: '418', parentId: '6', custom: 'ü' }, children: [] },
+        ]);
     });
     it('should work with empty inputs', function () {
         chai_1.expect(arrayToTree_1.arrayToTree([])).to.deep.equal([]);

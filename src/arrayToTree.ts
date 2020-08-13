@@ -33,7 +33,6 @@ const defaultConfig: Config = {
  */
 export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeItem[] {
   const conf: Config = { ...defaultConfig, ...config }
-  conf.rootParentIds = defaultConfig.rootParentIds.concat(config.rootParentIds || [])
 
   // the resulting unflattened tree
   const rootItems: TreeItem[] = []
@@ -71,7 +70,7 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
 
     const TreeItem = lookup[itemId]
 
-    if (conf.rootParentIds.includes(parentId)) {
+    if (conf.rootParentIds.indexOf(parentId) !== -1) {
       // is a root item
       rootItems.push(TreeItem)
     } else {

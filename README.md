@@ -64,7 +64,7 @@ You can provide a second argument to arrayToTree with configuration options. Rig
 - `childrenField`: key which will contain all child nodes of the parent node. Default: `"children"`
 - `dataField`: key which will contain all properties/data of the original items. Set to null if you don't want a container. Default: `"data"`
 - `throwIfOrphans`: option to throw an error if the array of items contains one or more items that have no parents in the array. This option has a small runtime penalty, so it's disabled by default. When enabled, the function will throw an error containing the parentIds that were not found in the items array. When disabled, the function will just ignore orphans and not add them to the tree. Default: `false`
-- `rootParentIds`: key array used to specify an item whose parent id is an orphan, but you don't want it and it's sub items to be ignored. It's useful when your tree is a subset of full tree, which means there is no item whose parent id is one of `undefined` / `null` / `''`. The array you pass in will be merged with the default value. See[#23](https://github.com/philipstanislaus/performant-array-to-tree/issues/23). Default: `[null, undefined, '']`
+- `rootParentIds`: Array of parent ids that should be considered the top or root elements of the tree. This is useful when your tree is a subset of full tree, which means there is no item whose parent id is one of `undefined`, `null` or `''`. The array you pass in will be replace the default value. For more details, see [#23](https://github.com/philipstanislaus/performant-array-to-tree/issues/23). Default: `[null, undefined, '']`
 
 Example:
 
