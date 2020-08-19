@@ -42,6 +42,10 @@ function arrayToTree(items, config) {
         var item = items_1[_i];
         var itemId = item[conf.id];
         var parentId = item[conf.parentId];
+        if (conf.rootParentIds.indexOf(itemId) !== -1) {
+            throw new Error("The item array contains a node whose parentId both exists in another node and is in rootParentIds. " +
+                ("Current rootParentIds is " + JSON.stringify(conf.rootParentIds, function (_, value) { return value === undefined ? 'undefined' : value; })));
+        }
         // look whether item already exists in the lookup table
         if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
             // item is not yet there, so add a preliminary item (its data will be added later)

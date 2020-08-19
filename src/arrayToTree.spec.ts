@@ -311,7 +311,7 @@ describe('arrayToTree', () => {
 
   it('should throw if a node has parentId that both exists in another node and is in rootParentIds', () => {
     expect(
-      arrayToTree(
+      () => arrayToTree(
         [
           { id: 'fakeOrphan', parentId: null },
           { id: 'aaa', parentId: 'fakeOrphan' },
@@ -323,21 +323,13 @@ describe('arrayToTree', () => {
           throwIfOrphans: true,
         },
       ),
-    ).to.deep.equal([
-      { data: { id: 'fakeOrphan', parentId: null }, children: [] },
-      {
-        data: { id: 'aaa', parentId: 'fakeOrphan' }, children: [
-          {
-            data: { id: 'bbb', parentId: 'aaa' }, children: [
-              { data: { id: 'ccc', parentId: 'bbb' }, children: [] },
-            ],
-          },
-        ],
-      },
-    ])
+    ).to.throw(
+      'The item array contains a node whose parentId both exists in another node and is in rootParentIds. ' +
+      'Current rootParentIds is [null,"undefined","","fakeOrphan"]',
+    )
   })
 
-  it('should default rootParentIds be replaced by the value user passd in', () => {
+  it('should replace default rootParentIds by the provided value', () => {
     expect(
       arrayToTree([
         { id: '4', parentId: null, custom: 'abc' },

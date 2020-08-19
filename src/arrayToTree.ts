@@ -52,6 +52,11 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
     const itemId = item[conf.id]
     const parentId = item[conf.parentId]
 
+    if (conf.rootParentIds.indexOf(itemId) !== -1) {
+      throw new Error(`The item array contains a node whose parentId both exists in another node and is in rootParentIds. ` +
+      `Current rootParentIds is ${JSON.stringify(conf.rootParentIds, (_, value) => value === undefined ? 'undefined' : value)}`)
+    }
+
     // look whether item already exists in the lookup table
     if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
       // item is not yet there, so add a preliminary item (its data will be added later)

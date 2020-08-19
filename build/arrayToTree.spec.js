@@ -274,7 +274,7 @@ describe('arrayToTree', function () {
             'Hint: prevent orphans to result in an error by passing the following option: { throwIfOrphans: false }');
     });
     it('should throw if a node has parentId that both exists in another node and is in rootParentIds', function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        chai_1.expect(function () { return arrayToTree_1.arrayToTree([
             { id: 'fakeOrphan', parentId: null },
             { id: 'aaa', parentId: 'fakeOrphan' },
             { id: 'bbb', parentId: 'aaa' },
@@ -282,20 +282,10 @@ describe('arrayToTree', function () {
         ], {
             rootParentIds: [null, undefined, '', 'fakeOrphan'],
             throwIfOrphans: true,
-        })).to.deep.equal([
-            { data: { id: 'fakeOrphan', parentId: null }, children: [] },
-            {
-                data: { id: 'aaa', parentId: 'fakeOrphan' }, children: [
-                    {
-                        data: { id: 'bbb', parentId: 'aaa' }, children: [
-                            { data: { id: 'ccc', parentId: 'bbb' }, children: [] },
-                        ],
-                    },
-                ],
-            },
-        ]);
+        }); }).to.throw('The item array contains a node whose parentId both exists in another node and is in rootParentIds. ' +
+            'Current rootParentIds is [null,"undefined","","fakeOrphan"]');
     });
-    it('should default rootParentIds be replaced by the value user passd in', function () {
+    it('should replace default rootParentIds by the provided value', function () {
         chai_1.expect(arrayToTree_1.arrayToTree([
             { id: '4', parentId: null, custom: 'abc' },
             { id: '31', parentId: '4', custom: '12' },
