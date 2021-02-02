@@ -16,6 +16,7 @@ export interface Config {
   dataField: string | null,
   childrenField: string,
   throwIfOrphans: boolean,
+  rootParentIds: { [rootParentId: string]: true }, // use an object here for fast lookups
 }
 
 const defaultConfig: Config = {
@@ -24,6 +25,7 @@ const defaultConfig: Config = {
   dataField: 'data',
   childrenField: 'children',
   throwIfOrphans: false,
+  rootParentIds: { '': true },
 }
 
 /**
@@ -50,6 +52,12 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
     const itemId = item[conf.id]
     const parentId = item[conf.parentId]
 
+    if (conf.rootParentIds[itemId]) {
+      throw new Error(`The item array contains a node whose parentId both exists in another node and is in ` +
+      `\`rootParentIds\` (\`itemId\`: "${itemId}", \`rootParentIds\`: ${
+        Object.keys(conf.rootParentIds).map(r => `"${r}"`).join(', ')}).`)
+    }
+
     // look whether item already exists in the lookup table
     if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
       // item is not yet there, so add a preliminary item (its data will be added later)
@@ -68,7 +76,7 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
 
     const TreeItem = lookup[itemId]
 
-    if (parentId === null || parentId === undefined || parentId === '') {
+    if (parentId === null || parentId === undefined || conf.rootParentIds[parentId]) {
       // is a root item
       rootItems.push(TreeItem)
     } else {
