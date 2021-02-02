@@ -205,7 +205,7 @@ describe('arrayToTree', function () {
             { id: '418', parentId: 'orphan2', custom: 'ü' },
             { id: '1313', parentId: 'orphan3', custom: 'will be ignored' },
         ], {
-            rootParentIds: [null, undefined, '', 'orphan1', 'orphan2'],
+            rootParentIds: { '': true, orphan1: true, orphan2: true },
         })).to.deep.equal([
             {
                 data: { id: '4', parentId: 'orphan1', custom: 'abc' }, children: [
@@ -267,7 +267,7 @@ describe('arrayToTree', function () {
             { id: '419', parentId: '418', custom: 'ü' },
             { id: '420', parentId: '7', custom: 'ü' },
         ], {
-            rootParentIds: [null, undefined, '', '6'],
+            rootParentIds: { '': true, '6': true },
             throwIfOrphans: true,
         }); }).to.throw('The items array contains orphans that point to the following parentIds: [7]. ' +
             'These parentIds do not exist in the items array. ' +
@@ -280,18 +280,18 @@ describe('arrayToTree', function () {
             { id: 'bbb', parentId: 'aaa' },
             { id: 'ccc', parentId: 'bbb' },
         ], {
-            rootParentIds: [null, undefined, '', 'fakeOrphan'],
+            rootParentIds: { '': true, 'fakeOrphan': true },
             throwIfOrphans: true,
-        }); }).to.throw('The item array contains a node whose parentId both exists in another node and is in rootParentIds. ' +
-            'Current rootParentIds is [null,"undefined","","fakeOrphan"]');
+        }); }).to.throw('The item array contains a node whose parentId both exists in another node and is in `rootParentIds` ' +
+            '(`itemId`: "fakeOrphan", `rootParentIds`: "", "fakeOrphan").');
     });
     it('should replace default rootParentIds by the provided value', function () {
         chai_1.expect(arrayToTree_1.arrayToTree([
-            { id: '4', parentId: null, custom: 'abc' },
+            { id: '4', parentId: '', custom: 'abc' },
             { id: '31', parentId: '4', custom: '12' },
             { id: '418', parentId: '6', custom: 'ü' },
         ], {
-            rootParentIds: ['6'],
+            rootParentIds: { '6': true },
         })).to.deep.equal([
             { data: { id: '418', parentId: '6', custom: 'ü' }, children: [] },
         ]);

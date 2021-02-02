@@ -227,7 +227,7 @@ describe('arrayToTree', () => {
         { id: '1313', parentId: 'orphan3', custom: 'will be ignored' },
       ],
       {
-        rootParentIds: [null, undefined, '', 'orphan1', 'orphan2'],
+        rootParentIds: {'': true, orphan1: true, orphan2: true},
       },
     )).to.deep.equal([
       {
@@ -298,7 +298,7 @@ describe('arrayToTree', () => {
           { id: '420', parentId: '7', custom: 'ü' },
         ],
         {
-          rootParentIds: [null, undefined, '', '6'],
+          rootParentIds: {'': true, '6': true},
           throwIfOrphans: true,
         },
       ),
@@ -319,24 +319,24 @@ describe('arrayToTree', () => {
           { id: 'ccc', parentId: 'bbb' },
         ],
         {
-          rootParentIds: [null, undefined, '', 'fakeOrphan'],
+          rootParentIds: {'': true, 'fakeOrphan': true},
           throwIfOrphans: true,
         },
       ),
     ).to.throw(
-      'The item array contains a node whose parentId both exists in another node and is in rootParentIds. ' +
-      'Current rootParentIds is [null,"undefined","","fakeOrphan"]',
+      'The item array contains a node whose parentId both exists in another node and is in `rootParentIds` ' +
+      '(`itemId`: "fakeOrphan", `rootParentIds`: "", "fakeOrphan").'
     )
   })
 
   it('should replace default rootParentIds by the provided value', () => {
     expect(
       arrayToTree([
-        { id: '4', parentId: null, custom: 'abc' },
+        { id: '4', parentId: '', custom: 'abc' },
         { id: '31', parentId: '4', custom: '12' },
         { id: '418', parentId: '6', custom: 'ü' },
       ], {
-        rootParentIds: ['6'],
+        rootParentIds: {'6': true},
       },
     )).to.deep.equal([
       { data: { id: '418', parentId: '6', custom: 'ü' }, children: [] },

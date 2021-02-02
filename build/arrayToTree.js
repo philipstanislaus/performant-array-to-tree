@@ -17,7 +17,7 @@ var defaultConfig = {
     dataField: 'data',
     childrenField: 'children',
     throwIfOrphans: false,
-    rootParentIds: [null, undefined, ''],
+    rootParentIds: { '': true },
 };
 /**
  * Unflattens an array to a tree with runtime O(n)
@@ -42,9 +42,9 @@ function arrayToTree(items, config) {
         var item = items_1[_i];
         var itemId = item[conf.id];
         var parentId = item[conf.parentId];
-        if (conf.rootParentIds.indexOf(itemId) !== -1) {
-            throw new Error("The item array contains a node whose parentId both exists in another node and is in rootParentIds. " +
-                ("Current rootParentIds is " + JSON.stringify(conf.rootParentIds, function (_, value) { return value === undefined ? 'undefined' : value; })));
+        if (conf.rootParentIds[itemId]) {
+            throw new Error("The item array contains a node whose parentId both exists in another node and is in " +
+                ("`rootParentIds` (`itemId`: \"" + itemId + "\", `rootParentIds`: " + Object.keys(conf.rootParentIds).map(function (r) { return "\"" + r + "\""; }).join(", ") + ")."));
         }
         // look whether item already exists in the lookup table
         if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
@@ -63,7 +63,7 @@ function arrayToTree(items, config) {
             lookup[itemId] = __assign(__assign({}, item), (_b = {}, _b[conf.childrenField] = lookup[itemId][conf.childrenField], _b));
         }
         var TreeItem = lookup[itemId];
-        if (conf.rootParentIds.indexOf(parentId) !== -1) {
+        if (parentId === null || parentId === undefined || conf.rootParentIds[parentId]) {
             // is a root item
             rootItems.push(TreeItem);
         }
