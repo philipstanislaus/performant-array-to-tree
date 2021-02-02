@@ -51,8 +51,8 @@
     "version": "git add .",
     "postversion": "git push && git push --tags",
     "build": "rm -rf build && tsc && npm run uglify",
-    "lint": "rm -rf build && tslint --project tsconfig.json './src/**/*.ts'",
-    "lint-fix": "rm -rf build && tslint --project tsconfig.json './src/**/*.ts' --fix",
+    "lint": "tslint --project tsconfig.json './src/**/*.ts'",
+    "lint-fix": "tslint --project tsconfig.json './src/**/*.ts' --fix",
     "test": "ts-mocha src/**/*.spec.ts --timeout 10000",
     "test-coverage": "nyc npm test && codecov",
     "uglify": "uglifyjs build/arrayToTree.js --compress --mangle --output build/arrayToTree.min.js"
