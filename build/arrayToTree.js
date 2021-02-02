@@ -16,7 +16,7 @@ var defaultConfig = {
     parentId: 'parentId',
     dataField: 'data',
     childrenField: 'children',
-    throwIfOrphans: false
+    throwIfOrphans: false,
 };
 /**
  * Unflattens an array to a tree with runtime O(n)
@@ -92,7 +92,7 @@ exports.arrayToTree = arrayToTree;
  * @param item
  * @param nestedProperty the chained properties to access the nested property. Eg: 'your.nested.property'
  */
-var getNestedProperty = function (item, nestedProperty) {
+function getNestedProperty(item, nestedProperty) {
     return nestedProperty.split('.').reduce(function (o, i) { return o[i]; }, item);
-};
+}
 //# sourceMappingURL=arrayToTree.js.map
