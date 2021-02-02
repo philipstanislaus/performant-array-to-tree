@@ -296,40 +296,95 @@ describe('arrayToTree', () => {
     expect(arrayToTree([])).to.deep.equal([])
   })
 
-  it('should work with nested objects and nested id and/or parentId properties', () => {
+  it('should work with nested objects and nested id and parentId properties', () => {
     expect(arrayToTree(
       [
-					{ nestedProperties: { id: '1', parentId: null, custom: '1' } },
-					{ nestedProperties: { id: '1.1', parentId: '1', custom: '1.1' } },
-					{ nestedProperties: { id: '1.1.1', parentId: '1.1', custom: '1.1.1' } },
-					{ nestedProperties: { id: '1.2', parentId: '1', custom: '1.2' } },
-					{ nestedProperties: { id: '2', parentId: null, custom: '2' } },
+					{ nested: { id: '1', parentId: null, custom: '1' } },
+					{ nested: { id: '1.1', parentId: '1', custom: '1.1' } },
+					{ nested: { id: '1.1.1', parentId: '1.1', custom: '1.1.1' } },
+					{ nested: { id: '1.2', parentId: '1', custom: '1.2' } },
+					{ nested: { id: '2', parentId: null, custom: '2' } },
       ],
-				{ id: 'nestedProperties.id', parentId: 'nestedProperties.parentId' },
+				{ id: 'nested.id', parentId: 'nested.parentId' },
 			),
 		).to.deep.equal([
   {
-    data: { nestedProperties: { id: '1', parentId: null, custom: '1' } },
+    data: { nested: { id: '1', parentId: null, custom: '1' } },
     children: [
       {
-        data: { nestedProperties: { id: '1.1', parentId: '1', custom: '1.1' } },
+        data: { nested: { id: '1.1', parentId: '1', custom: '1.1' } },
         children: [
           {
-            data: { nestedProperties: { id: '1.1.1', parentId: '1.1', custom: '1.1.1' } },
+            data: { nested: { id: '1.1.1', parentId: '1.1', custom: '1.1.1' } },
             children: [],
           },
         ],
       },
       {
-        data: { nestedProperties: { id: '1.2', parentId: '1', custom: '1.2' } },
+        data: { nested: { id: '1.2', parentId: '1', custom: '1.2' } },
         children: [],
       },
     ],
   },
   {
-    data: { nestedProperties: { id: '2', parentId: null, custom: '2' } },
+    data: { nested: { id: '2', parentId: null, custom: '2' } },
     children: [],
   },
 ])
+
+  })
+  it('should work with nested id property', () => {
+    expect(arrayToTree(
+      [
+					{ one: { id: '1' }, parentId: null, custom: '1' },
+					{ one: { id: '1.1' }, parentId: '1', custom: '1.1' },
+      ],
+				{ id: 'one.id', parentId: 'parentId' },
+			),
+		).to.deep.equal([{
+  data: { one: { id: '1' }, parentId: null, custom: '1' },
+  children: [
+    {
+      data: { one: { id: '1.1' }, parentId: '1', custom: '1.1' },
+      children: [],
+    },
+  ],
+}])
+  })
+  it('should work with nested parentId property', () => {
+    expect(arrayToTree(
+      [
+					{ id: '1', two: { parentId: null }, custom: '1' },
+					{ id: '1.1', two: { parentId: '1' }, custom: '1.1' },
+      ],
+				{ id: 'id', parentId: 'two.parentId' },
+			),
+		).to.deep.equal([{
+  data: { id: '1', two: { parentId: null }, custom: '1' },
+  children: [
+    {
+      data: { id: '1.1', two: { parentId: '1' }, custom: '1.1' },
+      children: [],
+    },
+  ],
+}])
+  })
+  it('should work with nested id and parentId properties', () => {
+    expect(arrayToTree(
+      [
+					{ one: { id: '1' }, two: { parentId: null }, custom: '1' },
+					{ one: { id: '1.1' }, two: { parentId: '1' }, custom: '1.1' },
+      ],
+				{ id: 'one.id', parentId: 'two.parentId' },
+			),
+		).to.deep.equal([{
+  data: { one: { id: '1' }, two: { parentId: null }, custom: '1' },
+  children: [
+    {
+      data: { one: { id: '1.1' }, two: { parentId: '1' }, custom: '1.1' },
+      children: [],
+    },
+  ],
+}])
   })
 })
