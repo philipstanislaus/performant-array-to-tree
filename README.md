@@ -5,7 +5,7 @@
 [![CircleCI](https://circleci.com/gh/philipstanislaus/performant-array-to-tree/tree/main.svg?style=shield&circle-token=01828caf71908b915230609847a12272cc80c54d)](https://circleci.com/gh/philipstanislaus/performant-array-to-tree/tree/main)
 [![codecov](https://codecov.io/gh/philipstanislaus/performant-array-to-tree/branch/main/graph/badge.svg?token=qgGKoJkCVC)](https://codecov.io/gh/philipstanislaus/performant-array-to-tree)
 [![Dependency Status](https://david-dm.org/philipstanislaus/performant-array-to-tree.svg)](https://david-dm.org/philipstanislaus/performant-array-to-tree)
-[![devDependency Status](https://david-dm.org/philipstanislaus/performant-array-to-tree/dev-status.svg)](https://david-dm.org/philipstanislaus/performant-array-to-tree#type=dev)
+[![devDependency Status](https://david-dm.org/philipstanislaus/performant-array-to-tree/dev-status.svg)](https://david-dm.org/philipstanislaus/performant-array-to-tree?type=dev)
 [![typings included](https://img.shields.io/badge/typings-included-brightgreen.svg)](#typescript)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![npm license](https://img.shields.io/npm/l/performant-array-to-tree.svg)](https://www.npmjs.com/package/performant-array-to-tree)
