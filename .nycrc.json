@@ -3,7 +3,7 @@
   "extension": [".ts"],
   "check-coverage": true,
   "include": ["src/**"],
-  "reporter": ["html", "text", "text-summary"],
+  "reporter": ["html", "text", "text-summary", "lcov"],
   "statements": 90,
   "branches": 90,
   "functions": 95,

@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/performant-array-to-tree.svg)](https://www.npmjs.com/package/performant-array-to-tree)
 [![minified size](https://img.shields.io/badge/minified_size-0.448_kb-brightgreen.svg)](https://github.com/philipstanislaus/performant-array-to-tree/blob/master/build/arrayToTree.min.js)
 [![CircleCI](https://circleci.com/gh/philipstanislaus/performant-array-to-tree/tree/master.svg?style=shield&circle-token=01828caf71908b915230609847a12272cc80c54d)](https://circleci.com/gh/philipstanislaus/performant-array-to-tree/tree/master)
-[![Coverage Status](https://coveralls.io/repos/github/philipstanislaus/performant-array-to-tree/badge.svg?branch=master)](https://coveralls.io/github/philipstanislaus/performant-array-to-tree?branch=master)
+[![codecov](https://codecov.io/gh/philipstanislaus/performant-array-to-tree/branch/master/graph/badge.svg?token=qgGKoJkCVC)](https://codecov.io/gh/philipstanislaus/performant-array-to-tree)
 [![Dependency Status](https://david-dm.org/philipstanislaus/performant-array-to-tree.svg)](https://david-dm.org/philipstanislaus/performant-array-to-tree)
 [![devDependency Status](https://david-dm.org/philipstanislaus/performant-array-to-tree/dev-status.svg)](https://david-dm.org/philipstanislaus/performant-array-to-tree#info=devDependencies)
 [![typings included](https://img.shields.io/badge/typings-included-brightgreen.svg)](#typescript)
