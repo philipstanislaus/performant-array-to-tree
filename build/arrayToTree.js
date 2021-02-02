@@ -17,6 +17,7 @@ var defaultConfig = {
     dataField: 'data',
     childrenField: 'children',
     throwIfOrphans: false,
+    rootParentIds: { '': true },
 };
 /**
  * Unflattens an array to a tree with runtime O(n)
@@ -41,6 +42,10 @@ function arrayToTree(items, config) {
         var item = items_1[_i];
         var itemId = getNestedProperty(item, conf.id);
         var parentId = getNestedProperty(item, conf.parentId);
+        if (conf.rootParentIds[itemId]) {
+            throw new Error("The item array contains a node whose parentId both exists in another node and is in " +
+                ("`rootParentIds` (`itemId`: \"" + itemId + "\", `rootParentIds`: " + Object.keys(conf.rootParentIds).map(function (r) { return "\"" + r + "\""; }).join(', ') + ")."));
+        }
         // look whether item already exists in the lookup table
         if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
             // item is not yet there, so add a preliminary item (its data will be added later)
@@ -58,7 +63,7 @@ function arrayToTree(items, config) {
             lookup[itemId] = __assign(__assign({}, item), (_b = {}, _b[conf.childrenField] = lookup[itemId][conf.childrenField], _b));
         }
         var TreeItem = lookup[itemId];
-        if (parentId === null || parentId === undefined || parentId === '') {
+        if (parentId === null || parentId === undefined || conf.rootParentIds[parentId]) {
             // is a root item
             rootItems.push(TreeItem);
         }
