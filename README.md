@@ -178,3 +178,9 @@ import { arrayToTree } from "performant-array-to-tree";
 
 const tree = arrayToTree(array);
 ```
+
+## Development
+
+`yarn version` to create a new version
+`npm login`
+`npm publish --access public` to publish it to npm
