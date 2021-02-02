@@ -227,7 +227,7 @@ describe('arrayToTree', () => {
         { id: '1313', parentId: 'orphan3', custom: 'will be ignored' },
       ],
       {
-        rootParentIds: {'': true, orphan1: true, orphan2: true},
+        rootParentIds: { '': true, orphan1: true, orphan2: true },
       },
     )).to.deep.equal([
       {
@@ -298,7 +298,7 @@ describe('arrayToTree', () => {
           { id: '420', parentId: '7', custom: 'ü' },
         ],
         {
-          rootParentIds: {'': true, '6': true},
+          rootParentIds: { '': true, '6': true },
           throwIfOrphans: true,
         },
       ),
@@ -319,13 +319,13 @@ describe('arrayToTree', () => {
           { id: 'ccc', parentId: 'bbb' },
         ],
         {
-          rootParentIds: {'': true, 'fakeOrphan': true},
+          rootParentIds: { '': true, 'fakeOrphan': true },
           throwIfOrphans: true,
         },
       ),
     ).to.throw(
       'The item array contains a node whose parentId both exists in another node and is in `rootParentIds` ' +
-      '(`itemId`: "fakeOrphan", `rootParentIds`: "", "fakeOrphan").'
+      '(`itemId`: "fakeOrphan", `rootParentIds`: "", "fakeOrphan").',
     )
   })
 
@@ -336,7 +336,7 @@ describe('arrayToTree', () => {
         { id: '31', parentId: '4', custom: '12' },
         { id: '418', parentId: '6', custom: 'ü' },
       ], {
-        rootParentIds: {'6': true},
+        rootParentIds: { '6': true },
       },
     )).to.deep.equal([
       { data: { id: '418', parentId: '6', custom: 'ü' }, children: [] },

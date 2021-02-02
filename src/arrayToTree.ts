@@ -25,7 +25,7 @@ const defaultConfig: Config = {
   dataField: 'data',
   childrenField: 'children',
   throwIfOrphans: false,
-  rootParentIds: {'': true},
+  rootParentIds: { '': true },
 }
 
 /**
@@ -55,7 +55,7 @@ export function arrayToTree (items: Item[], config: Partial<Config> = {}): TreeI
     if (conf.rootParentIds[itemId]) {
       throw new Error(`The item array contains a node whose parentId both exists in another node and is in ` +
       `\`rootParentIds\` (\`itemId\`: "${itemId}", \`rootParentIds\`: ${
-        Object.keys(conf.rootParentIds).map(r => `"${r}"`).join(", ")}).`)
+        Object.keys(conf.rootParentIds).map(r => `"${r}"`).join(', ')}).`)
     }
 
     // look whether item already exists in the lookup table

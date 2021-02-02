@@ -44,7 +44,7 @@ function arrayToTree(items, config) {
         var parentId = item[conf.parentId];
         if (conf.rootParentIds[itemId]) {
             throw new Error("The item array contains a node whose parentId both exists in another node and is in " +
-                ("`rootParentIds` (`itemId`: \"" + itemId + "\", `rootParentIds`: " + Object.keys(conf.rootParentIds).map(function (r) { return "\"" + r + "\""; }).join(", ") + ")."));
+                ("`rootParentIds` (`itemId`: \"" + itemId + "\", `rootParentIds`: " + Object.keys(conf.rootParentIds).map(function (r) { return "\"" + r + "\""; }).join(', ') + ")."));
         }
         // look whether item already exists in the lookup table
         if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
