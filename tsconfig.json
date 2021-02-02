@@ -10,8 +10,5 @@
     "strictNullChecks": true,
     "lib": ["ES6"]
   },
-  "exclude": [
-    "node_modules",
-    "typings"
-  ]
+  "exclude": ["node_modules", "typings"]
 }
