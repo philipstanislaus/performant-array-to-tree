@@ -13,12 +13,12 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.arrayToTree = void 0;
 var defaultConfig = {
-    id: 'id',
-    parentId: 'parentId',
-    dataField: 'data',
-    childrenField: 'children',
+    id: "id",
+    parentId: "parentId",
+    dataField: "data",
+    childrenField: "children",
     throwIfOrphans: false,
-    rootParentIds: { '': true },
+    rootParentIds: { "": true },
 };
 /**
  * Unflattens an array to a tree with runtime O(n)
@@ -33,7 +33,9 @@ function arrayToTree(items, config) {
     var lookup = {};
     // stores all item ids that have not been added to the resulting unflattened tree yet
     // this is an opt-in property, since it has a slight runtime overhead
-    var orphanIds = config.throwIfOrphans ? new Set() : null;
+    var orphanIds = config.throwIfOrphans
+        ? new Set()
+        : null;
     // idea of this loop:
     // whenever an item has a parent, but the parent is not yet in the lookup object, we store a preliminary parent
     // in the lookup object and fill it with the data of the parent later
@@ -44,7 +46,9 @@ function arrayToTree(items, config) {
         var parentId = getNestedProperty(item, conf.parentId);
         if (conf.rootParentIds[itemId]) {
             throw new Error("The item array contains a node whose parentId both exists in another node and is in " +
-                ("`rootParentIds` (`itemId`: \"" + itemId + "\", `rootParentIds`: " + Object.keys(conf.rootParentIds).map(function (r) { return "\"" + r + "\""; }).join(', ') + ")."));
+                ("`rootParentIds` (`itemId`: \"" + itemId + "\", `rootParentIds`: " + Object.keys(conf.rootParentIds)
+                    .map(function (r) { return "\"" + r + "\""; })
+                    .join(", ") + ")."));
         }
         // look whether item already exists in the lookup table
         if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
@@ -62,10 +66,12 @@ function arrayToTree(items, config) {
         else {
             lookup[itemId] = __assign(__assign({}, item), (_b = {}, _b[conf.childrenField] = lookup[itemId][conf.childrenField], _b));
         }
-        var TreeItem = lookup[itemId];
-        if (parentId === null || parentId === undefined || conf.rootParentIds[parentId]) {
+        var treeItem = lookup[itemId];
+        if (parentId === null ||
+            parentId === undefined ||
+            conf.rootParentIds[parentId]) {
             // is a root item
-            rootItems.push(TreeItem);
+            rootItems.push(treeItem);
         }
         else {
             // has a parent
@@ -79,7 +85,7 @@ function arrayToTree(items, config) {
                 }
             }
             // add the current item to the parent
-            lookup[parentId][conf.childrenField].push(TreeItem);
+            lookup[parentId][conf.childrenField].push(treeItem);
         }
     }
     if (orphanIds === null || orphanIds === void 0 ? void 0 : orphanIds.size) {
@@ -98,6 +104,6 @@ exports.arrayToTree = arrayToTree;
  * @param nestedProperty the chained properties to access the nested property. Eg: 'your.nested.property'
  */
 function getNestedProperty(item, nestedProperty) {
-    return nestedProperty.split('.').reduce(function (o, i) { return o[i]; }, item);
+    return nestedProperty.split(".").reduce(function (o, i) { return o[i]; }, item);
 }
 //# sourceMappingURL=arrayToTree.js.map

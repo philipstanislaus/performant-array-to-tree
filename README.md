@@ -7,7 +7,6 @@
 [![Dependency Status](https://david-dm.org/philipstanislaus/performant-array-to-tree.svg)](https://david-dm.org/philipstanislaus/performant-array-to-tree)
 [![devDependency Status](https://david-dm.org/philipstanislaus/performant-array-to-tree/dev-status.svg)](https://david-dm.org/philipstanislaus/performant-array-to-tree?type=dev)
 [![typings included](https://img.shields.io/badge/typings-included-brightgreen.svg)](#typescript)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![npm license](https://img.shields.io/npm/l/performant-array-to-tree.svg)](https://www.npmjs.com/package/performant-array-to-tree)
 
 Converts an array of items with ids and parent ids to a nested tree in a performant way (time complexity `O(n)`). Runs in browsers and node.
@@ -33,26 +32,32 @@ or if using npm
 
 ```js
 const tree = arrayToTree([
-    { id: '4', parentId: null, custom: 'abc' },
-    { id: '31', parentId: '4', custom: '12' },
-    { id: '1941', parentId: '418', custom: 'de' },
-    { id: '1', parentId: '418', custom: 'ZZZz' },
-    { id: '418', parentId: null, custom: 'ü'},
-])
+  { id: "4", parentId: null, custom: "abc" },
+  { id: "31", parentId: "4", custom: "12" },
+  { id: "1941", parentId: "418", custom: "de" },
+  { id: "1", parentId: "418", custom: "ZZZz" },
+  { id: "418", parentId: null, custom: "ü" },
+]);
 ```
 
 Which results in the following array:
 
 ```js
 [
-    { data: { id: '4', parentId: null, custom: 'abc' }, children: [
-        { data: { id: '31', parentId: '4', custom: '12' }, children: [] },
-    ] },
-    { data: { id: '418', parentId: null, custom: 'ü'}, children: [
-        { data: { id: '1941', parentId: '418', custom: 'de' }, children: [] },
-        { data: { id: '1', parentId: '418', custom: 'ZZZz' }, children: [] },
-    ] },
-]
+  {
+    data: { id: "4", parentId: null, custom: "abc" },
+    children: [
+      { data: { id: "31", parentId: "4", custom: "12" }, children: [] },
+    ],
+  },
+  {
+    data: { id: "418", parentId: null, custom: "ü" },
+    children: [
+      { data: { id: "1941", parentId: "418", custom: "de" }, children: [] },
+      { data: { id: "1", parentId: "418", custom: "ZZZz" }, children: [] },
+    ],
+  },
+];
 ```
 
 ## Configuration
@@ -69,72 +74,99 @@ You can provide a second argument to arrayToTree with configuration options. Rig
 Example:
 
 ```js
-const tree = arrayToTree([
-    { num: '4', ref: null, custom: 'abc' },
-    { num: '31', ref: '4', custom: '12' },
-    { num: '1941', ref: '418', custom: 'de' },
-    { num: '1', ref: '418', custom: 'ZZZz' },
-    { num: '418', ref: null, custom: 'ü'},
-], { id: 'num', parentId: 'ref', childrenField: 'nodes' })
+const tree = arrayToTree(
+  [
+    { num: "4", ref: null, custom: "abc" },
+    { num: "31", ref: "4", custom: "12" },
+    { num: "1941", ref: "418", custom: "de" },
+    { num: "1", ref: "418", custom: "ZZZz" },
+    { num: "418", ref: null, custom: "ü" },
+  ],
+  { id: "num", parentId: "ref", childrenField: "nodes" }
+);
 ```
 
 Which produces:
 
 ```js
 [
-    { data: { num: '4', ref: null, custom: 'abc' }, nodes: [
-        { data: { num: '31', ref: '4', custom: '12' }, nodes: [] },
-    ] },
-    { data: { num: '418', ref: null, custom: 'ü'}, nodes: [
-        { data: { num: '1941', ref: '418', custom: 'de' }, nodes: [] },
-        { data: { num: '1', ref: '418', custom: 'ZZZz' }, nodes: [] },
-    ] },
-]
+  {
+    data: { num: "4", ref: null, custom: "abc" },
+    nodes: [{ data: { num: "31", ref: "4", custom: "12" }, nodes: [] }],
+  },
+  {
+    data: { num: "418", ref: null, custom: "ü" },
+    nodes: [
+      { data: { num: "1941", ref: "418", custom: "de" }, nodes: [] },
+      { data: { num: "1", ref: "418", custom: "ZZZz" }, nodes: [] },
+    ],
+  },
+];
 ```
 
 Example with no data field:
 
 ```js
-const tree = arrayToTree([
-    { id: '4', parentId: null, custom: 'abc' },
-    { id: '31', parentId: '4', custom: '12' },
-    { id: '1941', parentId: '418', custom: 'de' },
-    { id: '1', parentId: '418', custom: 'ZZZz' },
-    { id: '418', parentId: null, custom: 'ü'},
-], { dataField: null })
+const tree = arrayToTree(
+  [
+    { id: "4", parentId: null, custom: "abc" },
+    { id: "31", parentId: "4", custom: "12" },
+    { id: "1941", parentId: "418", custom: "de" },
+    { id: "1", parentId: "418", custom: "ZZZz" },
+    { id: "418", parentId: null, custom: "ü" },
+  ],
+  { dataField: null }
+);
 ```
 
 Which produces:
 
 ```js
 [
-    { id: '4', parentId: null, custom: 'abc', children: [
-        { id: '31', parentId: '4', custom: '12', children: [] },
-    ] },
-    { id: '418', parentId: null, custom: 'ü', children: [
-        { id: '1941', parentId: '418', custom: 'de', children: [] },
-        { id: '1', parentId: '418', custom: 'ZZZz', children: [] },
-    ] },
-]
+  {
+    id: "4",
+    parentId: null,
+    custom: "abc",
+    children: [{ id: "31", parentId: "4", custom: "12", children: [] }],
+  },
+  {
+    id: "418",
+    parentId: null,
+    custom: "ü",
+    children: [
+      { id: "1941", parentId: "418", custom: "de", children: [] },
+      { id: "1", parentId: "418", custom: "ZZZz", children: [] },
+    ],
+  },
+];
 ```
 
 Example with nested id/parentId properties:
 
 ```js
-const tree = arrayToTree([
-    { num: { id: '4' }, parent: { parentId: null }, custom: 'abc' },
-    { num: { id: '31' }, parent: { parentId: '4' }, custom: '12' },
-], { id: 'num.id', parentId: 'parent.parentId' })
+const tree = arrayToTree(
+  [
+    { num: { id: "4" }, parent: { parentId: null }, custom: "abc" },
+    { num: { id: "31" }, parent: { parentId: "4" }, custom: "12" },
+  ],
+  { id: "num.id", parentId: "parent.parentId" }
+);
 ```
 
 Which produces:
 
 ```js
 [
-    { data: { num: { id: '4' }, parent: { parentId: null }, custom: 'abc' }, children: [
-        { data: { num: { id: '31' }, parent: { parentId: '4' }, custom: '12' }, children: [] },
-    ] },
-]
+  {
+    data: { num: { id: "4" }, parent: { parentId: null }, custom: "abc" },
+    children: [
+      {
+        data: { num: { id: "31" }, parent: { parentId: "4" }, custom: "12" },
+        children: [],
+      },
+    ],
+  },
+];
 ```
 
 ## TypeScript
@@ -142,7 +174,7 @@ Which produces:
 This project includes types, just import the module as usual:
 
 ```ts
-import { arrayToTree } from 'performant-array-to-tree'
+import { arrayToTree } from "performant-array-to-tree";
 
-const tree = arrayToTree(array)
+const tree = arrayToTree(array);
 ```

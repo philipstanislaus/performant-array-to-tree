@@ -1,6 +1,6 @@
 {
-  "extends": "tslint-config-standard",
+  "extends": ["tslint:latest", "tslint-config-prettier"],
   "rules": {
-    "trailing-comma": [true, {"multiline": "always", "singleline": "never"}]
+    "no-implicit-dependencies": [true, "dev"]
   }
 }
