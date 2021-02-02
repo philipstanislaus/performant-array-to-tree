@@ -59,8 +59,8 @@ Which results in the following array:
 
 You can provide a second argument to arrayToTree with configuration options. Right now, you can set the following:
 
-- `id`: key of the id field of the item. Default: `"id"`
-- `parentId`: key of the parent's id field of the item. Default: `"parentId"`
+- `id`: key of the id field of the item. Also works with nested properties (e. g. `"nested.parentId"`). Default: `"id"`.
+- `parentId`: key of the parent's id field of the item. Also works with nested properties (e. g. `"nested.parentId"`). Default: `"parentId"`.
 - `childrenField`: key which will contain all child nodes of the parent node. Default: `"children"`
 - `dataField`: key which will contain all properties/data of the original items. Set to null if you don't want a container. Default: `"data"`
 - `throwIfOrphans`: option to throw an error if the array of items contains one or more items that have no parents in the array. This option has a small runtime penalty, so it's disabled by default. When enabled, the function will throw an error containing the parentIds that were not found in the items array. When disabled, the function will just ignore orphans and not add them to the tree. Default: `false`
@@ -114,6 +114,25 @@ Which produces:
     { id: '418', parentId: null, custom: 'ü', children: [
         { id: '1941', parentId: '418', custom: 'de', children: [] },
         { id: '1', parentId: '418', custom: 'ZZZz', children: [] },
+    ] },
+]
+```
+
+Example with nested id/parentId properties:
+
+```js
+const tree = arrayToTree([
+    { num: { id: '4' }, parent: { parentId: null }, custom: 'abc' },
+    { num: { id: '31' }, parent: { parentId: '4' }, custom: '12' },
+], { id: 'num.id', parentId: 'parent.parentId' })
+```
+
+Which produces:
+
+```js
+[
+    { data: { num: { id: '4' }, parent: { parentId: null }, custom: 'abc' }, children: [
+        { data: { num: { id: '31' }, parent: { parentId: '4' }, custom: '12' }, children: [] },
     ] },
 ]
 ```

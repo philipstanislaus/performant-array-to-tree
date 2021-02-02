@@ -53,6 +53,7 @@
     "postversion": "git push && git push --tags",
     "build": "rm -rf build && tsc && npm run uglify",
     "lint": "rm -rf build && tslint --project tsconfig.json './src/**/*.ts'",
+    "lint-fix": "rm -rf build && tslint --project tsconfig.json './src/**/*.ts' --fix",
     "test-spec": "mocha build/**/*.spec.js -R spec --bail",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- build/**/*.spec.js -R spec --bail",
     "test-and-send-cov-to-coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- build/**/*.spec.js -R spec --bail && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",

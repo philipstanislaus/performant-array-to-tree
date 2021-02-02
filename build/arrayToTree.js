@@ -40,8 +40,8 @@ function arrayToTree(items, config) {
     // if an item has no parentId, add it as a root element to rootItems
     for (var _i = 0, items_1 = items; _i < items_1.length; _i++) {
         var item = items_1[_i];
-        var itemId = item[conf.id];
-        var parentId = item[conf.parentId];
+        var itemId = getNestedProperty(item, conf.id);
+        var parentId = getNestedProperty(item, conf.parentId);
         if (conf.rootParentIds[itemId]) {
             throw new Error("The item array contains a node whose parentId both exists in another node and is in " +
                 ("`rootParentIds` (`itemId`: \"" + itemId + "\", `rootParentIds`: " + Object.keys(conf.rootParentIds).map(function (r) { return "\"" + r + "\""; }).join(', ') + ")."));
@@ -90,4 +90,14 @@ function arrayToTree(items, config) {
     return rootItems;
 }
 exports.arrayToTree = arrayToTree;
+/**
+ * Returns the value of a nested property inside an item
+ * Example: user can access 'id', or 'parentId' inside item = { nestedObject: { id: 'myId', parentId: 'myParentId' } }
+ * using getNestedItemProperty(item, 'nestedObject.id') or getNestedItemProperty(item, 'nestedObject.parentId')
+ * @param item
+ * @param nestedProperty the chained properties to access the nested property. Eg: 'your.nested.property'
+ */
+function getNestedProperty(item, nestedProperty) {
+    return nestedProperty.split('.').reduce(function (o, i) { return o[i]; }, item);
+}
 //# sourceMappingURL=arrayToTree.js.map
