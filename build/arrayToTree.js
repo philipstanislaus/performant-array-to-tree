@@ -11,6 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.arrayToTree = void 0;
 var defaultConfig = {
     id: 'id',
     parentId: 'parentId',
@@ -25,7 +26,6 @@ var defaultConfig = {
 function arrayToTree(items, config) {
     var _a, _b, _c;
     if (config === void 0) { config = {}; }
-    var _d;
     var conf = __assign(__assign({}, defaultConfig), config);
     // the resulting unflattened tree
     var rootItems = [];
@@ -82,7 +82,7 @@ function arrayToTree(items, config) {
             lookup[parentId][conf.childrenField].push(TreeItem);
         }
     }
-    if ((_d = orphanIds) === null || _d === void 0 ? void 0 : _d.size) {
+    if (orphanIds === null || orphanIds === void 0 ? void 0 : orphanIds.size) {
         throw new Error("The items array contains orphans that point to the following parentIds: " +
             ("[" + Array.from(orphanIds) + "]. These parentIds do not exist in the items array. Hint: prevent orphans to result ") +
             "in an error by passing the following option: { throwIfOrphans: false }");
