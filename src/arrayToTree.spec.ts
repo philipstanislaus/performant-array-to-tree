@@ -3,63 +3,58 @@ import { arrayToTree } from './arrayToTree'
 
 describe('arrayToTree', () => {
   it('should work with nested objects', () => {
-    expect(
-			arrayToTree([
+    expect(arrayToTree([
 				{ id: '4', parentId: null, custom: 'abc' },
 				{ id: '31', parentId: '4', custom: '12' },
 				{ id: '1941', parentId: '418', custom: 'de' },
 				{ id: '1', parentId: '418', custom: 'ZZZz' },
 				{ id: '418', parentId: null, custom: 'ü' },
-]),
-		).to.deep.equal([
-  {
-    data: { id: '4', parentId: null, custom: 'abc' },
-    children: [ { data: { id: '31', parentId: '4', custom: '12' }, children: [] } ],
-  },
-  {
-    data: { id: '418', parentId: null, custom: 'ü' },
-    children: [
+    ])).to.deep.equal([
+      {
+        data: { id: '4', parentId: null, custom: 'abc' },
+        children: [ { data: { id: '31', parentId: '4', custom: '12' }, children: [] } ],
+      },
+      {
+        data: { id: '418', parentId: null, custom: 'ü' },
+        children: [
 					{ data: { id: '1941', parentId: '418', custom: 'de' }, children: [] },
 					{ data: { id: '1', parentId: '418', custom: 'ZZZz' }, children: [] },
-    ],
-  },
-])
+        ],
+      },
+    ])
   })
 
   it('should work with integer keys', () => {
-    expect(
-			arrayToTree([
+    expect(arrayToTree([
 				{ id: 4, parentId: null, custom: 'abc' },
 				{ id: 31, parentId: 4, custom: '12' },
 				{ id: 1941, parentId: 418, custom: 'de' },
 				{ id: 1, parentId: 418, custom: 'ZZZz' },
 				{ id: 418, parentId: null, custom: 'ü' },
-]),
-		).to.deep.equal([
-  {
-    data: { id: 4, parentId: null, custom: 'abc' },
-    children: [ { data: { id: 31, parentId: 4, custom: '12' }, children: [] } ],
-  },
-  {
-    data: { id: 418, parentId: null, custom: 'ü' },
-    children: [
+    ])).to.deep.equal([
+      {
+        data: { id: 4, parentId: null, custom: 'abc' },
+        children: [ { data: { id: 31, parentId: 4, custom: '12' }, children: [] } ],
+      },
+      {
+        data: { id: 418, parentId: null, custom: 'ü' },
+        children: [
 					{ data: { id: 1941, parentId: 418, custom: 'de' }, children: [] },
 					{ data: { id: 1, parentId: 418, custom: 'ZZZz' }, children: [] },
-    ],
-  },
-])
+        ],
+      },
+    ])
   })
 
   it('should work with nested objects and custom keys', () => {
-    expect(
-			arrayToTree(
-  [
+    expect(arrayToTree(
+      [
 					{ num: '4', ref: null, custom: 'abc' },
 					{ num: '31', ref: '4', custom: '12' },
 					{ num: '1941', ref: '418', custom: 'de' },
 					{ num: '1', ref: '418', custom: 'ZZZz' },
 					{ num: '418', ref: null, custom: 'ü' },
-  ],
+      ],
 				{ id: 'num', parentId: 'ref', childrenField: 'nodes' },
 			),
 		).to.deep.equal([
@@ -78,40 +73,37 @@ describe('arrayToTree', () => {
   })
 
   it('should ignore objects if parentId does not exist', () => {
-    expect(
-			arrayToTree([
+    expect(arrayToTree([
 				{ id: '4', parentId: null, custom: 'abc' },
 				{ id: '31', parentId: '4', custom: '12' },
 				{ id: '1941', parentId: '418', custom: 'de' },
 				{ id: '1', parentId: '418', custom: 'ZZZz' },
 				{ id: '418', parentId: null, custom: 'ü' },
 				{ id: '1313', parentId: '13', custom: 'Not existing' },
-]),
-		).to.deep.equal([
-  {
-    data: { id: '4', parentId: null, custom: 'abc' },
-    children: [ { data: { id: '31', parentId: '4', custom: '12' }, children: [] } ],
-  },
-  {
-    data: { id: '418', parentId: null, custom: 'ü' },
-    children: [
+    ])).to.deep.equal([
+      {
+        data: { id: '4', parentId: null, custom: 'abc' },
+        children: [ { data: { id: '31', parentId: '4', custom: '12' }, children: [] } ],
+      },
+      {
+        data: { id: '418', parentId: null, custom: 'ü' },
+        children: [
 					{ data: { id: '1941', parentId: '418', custom: 'de' }, children: [] },
 					{ data: { id: '1', parentId: '418', custom: 'ZZZz' }, children: [] },
-    ],
-  },
-])
+        ],
+      },
+    ])
   })
 
   it('should work with nested objects with dataField set to null', () => {
-    expect(
-			arrayToTree(
-  [
+    expect(arrayToTree(
+      [
 					{ id: '4', parentId: null, custom: 'abc' },
 					{ id: '31', parentId: '4', custom: '12' },
 					{ id: '1941', parentId: '418', custom: 'de' },
 					{ id: '1', parentId: '418', custom: 'ZZZz' },
 					{ id: '418', parentId: null, custom: 'ü' },
-  ],
+      ],
 				{ dataField: null },
 			),
 		).to.deep.equal([
@@ -134,15 +126,14 @@ describe('arrayToTree', () => {
   })
 
   it('should work with nested objects and custom keys with dataField set to null', () => {
-    expect(
-			arrayToTree(
-  [
+    expect(arrayToTree(
+      [
 					{ num: '4', ref: null, custom: 'abc' },
 					{ num: '31', ref: '4', custom: '12' },
 					{ num: '1941', ref: '418', custom: 'de' },
 					{ num: '1', ref: '418', custom: 'ZZZz' },
 					{ num: '418', ref: null, custom: 'ü' },
-  ],
+      ],
 				{ id: 'num', parentId: 'ref', dataField: null },
 			),
 		).to.deep.equal([
@@ -165,16 +156,15 @@ describe('arrayToTree', () => {
   })
 
   it('should ignore objects if parentId does not exist with dataField set to null', () => {
-    expect(
-			arrayToTree(
-  [
+    expect(arrayToTree(
+      [
 					{ id: '4', parentId: null, custom: 'abc' },
 					{ id: '31', parentId: '4', custom: '12' },
 					{ id: '1941', parentId: '418', custom: 'de' },
 					{ id: '1', parentId: '418', custom: 'ZZZz' },
 					{ id: '418', parentId: null, custom: 'ü' },
 					{ id: '1313', parentId: '13', custom: 'Not existing' },
-  ],
+      ],
 				{ dataField: null },
 			),
 		).to.deep.equal([
@@ -197,68 +187,62 @@ describe('arrayToTree', () => {
   })
 
   it('should treat objects with missing parentId as root objects', () => {
-    expect(
-			arrayToTree([
+    expect(arrayToTree([
 				{ id: '4', custom: 'abc' },
 				{ id: '31', parentId: '4', custom: '12' },
 				{ id: '1941', parentId: '418', custom: 'de' },
 				{ id: '1', parentId: '418', custom: 'ZZZz' },
 				{ id: '418', custom: 'ü' },
 				{ id: '1313', parentId: '13', custom: 'Not existing' },
-]),
-		).to.deep.equal([
-  {
-    data: { id: '4', custom: 'abc' },
-    children: [ { data: { id: '31', parentId: '4', custom: '12' }, children: [] } ],
-  },
-  {
-    data: { id: '418', custom: 'ü' },
-    children: [
+    ])).to.deep.equal([
+      {
+        data: { id: '4', custom: 'abc' },
+        children: [ { data: { id: '31', parentId: '4', custom: '12' }, children: [] } ],
+      },
+      {
+        data: { id: '418', custom: 'ü' },
+        children: [
 					{ data: { id: '1941', parentId: '418', custom: 'de' }, children: [] },
 					{ data: { id: '1', parentId: '418', custom: 'ZZZz' }, children: [] },
-    ],
-  },
-])
+        ],
+      },
+    ])
   })
 
   it('should treat objects with empty string as parentId as root objects', () => {
-    expect(
-			arrayToTree([
+    expect(arrayToTree([
 				{ id: '4', parentId: '', custom: 'abc' },
 				{ id: '31', parentId: '4', custom: '12' },
 				{ id: '1941', parentId: '418', custom: 'de' },
 				{ id: '1', parentId: '418', custom: 'ZZZz' },
 				{ id: '418', parentId: '', custom: 'ü' },
 				{ id: '1313', parentId: '13', custom: 'Not existing' },
-]),
-		).to.deep.equal([
-  {
-    data: { id: '4', parentId: '', custom: 'abc' },
-    children: [ { data: { id: '31', parentId: '4', custom: '12' }, children: [] } ],
-  },
-  {
-    data: { id: '418', parentId: '', custom: 'ü' },
-    children: [
+    ])).to.deep.equal([
+      {
+        data: { id: '4', parentId: '', custom: 'abc' },
+        children: [ { data: { id: '31', parentId: '4', custom: '12' }, children: [] } ],
+      },
+      {
+        data: { id: '418', parentId: '', custom: 'ü' },
+        children: [
 					{ data: { id: '1941', parentId: '418', custom: 'de' }, children: [] },
 					{ data: { id: '1', parentId: '418', custom: 'ZZZz' }, children: [] },
-    ],
-  },
-])
+        ],
+      },
+    ])
   })
 
   it('should not throw if orphans exist but throwIfOrphans is false', () => {
-    expect(
-			arrayToTree([
+    expect(arrayToTree([
 				{ id: '4', parentId: null, custom: 'abc' },
 				{ id: '31', parentId: '4', custom: '12' },
 				{ id: '418', parentId: '6', custom: 'ü' },
-]),
-		).to.deep.equal([
-  {
-    data: { id: '4', parentId: null, custom: 'abc' },
-    children: [ { data: { id: '31', parentId: '4', custom: '12' }, children: [] } ],
-  },
-])
+    ])).to.deep.equal([
+      {
+        data: { id: '4', parentId: null, custom: 'abc' },
+        children: [ { data: { id: '31', parentId: '4', custom: '12' }, children: [] } ],
+      },
+    ])
   })
 
   it('should throw if orphans exist and throwIfOrphans is true', () => {
@@ -281,14 +265,13 @@ describe('arrayToTree', () => {
   })
 
   it('should not throw if no orphans exist and throwIfOrphans is true, but the order is different (see #18)', () => {
-    expect(
-			arrayToTree(
-  [
+    expect(arrayToTree(
+      [
 					{ id: '2', parentId: 'root', foo: 'bar' },
 					{ id: '1-1', parentId: '1', foo: 'bar' },
 					{ id: '1', parentId: 'root', foo: 'bar' },
 					{ id: 'root', parentId: null, bar: 'bar' },
-  ],
+      ],
 				{ dataField: null, throwIfOrphans: true },
 			),
 		).to.deep.equal([
@@ -314,15 +297,14 @@ describe('arrayToTree', () => {
   })
 
   it('should work with nested objects and nested id and/or parentId properties', () => {
-    expect(
-			arrayToTree(
-  [
+    expect(arrayToTree(
+      [
 					{ nestedProperties: { id: '1', parentId: null, custom: '1' } },
 					{ nestedProperties: { id: '1.1', parentId: '1', custom: '1.1' } },
 					{ nestedProperties: { id: '1.1.1', parentId: '1.1', custom: '1.1.1' } },
 					{ nestedProperties: { id: '1.2', parentId: '1', custom: '1.2' } },
 					{ nestedProperties: { id: '2', parentId: null, custom: '2' } },
-  ],
+      ],
 				{ id: 'nestedProperties.id', parentId: 'nestedProperties.parentId' },
 			),
 		).to.deep.equal([
