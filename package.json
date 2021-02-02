@@ -29,7 +29,7 @@
   ],
   "main": "build/arrayToTree.min.js",
   "types": "build/arrayToTree.d.ts",
-  "author": "Philip Stanislaus <stanislaus.philip@gmail.com>",
+  "author": "Philip Stanislaus <6912756+philipstanislaus@users.noreply.github.com>",
   "repository": "philipstanislaus/performant-array-to-tree",
   "license": "MIT",
   "dependencies": {},

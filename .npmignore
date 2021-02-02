@@ -1,5 +1,12 @@
 .circleci
+.nyc_output
+.vscode
 coverage
 src
+.gitignore
+.nycrc.json
+.prettierignore
+.prettierrc.json
+tsconfig.json
 tslint.json
 **/*spec
