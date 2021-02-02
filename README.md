@@ -68,6 +68,7 @@ You can provide a second argument to arrayToTree with configuration options. Rig
 
 Example:
 
+
 ```js
 const tree = arrayToTree([
     { num: '4', ref: null, custom: 'abc' },
