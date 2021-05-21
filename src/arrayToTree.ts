@@ -56,8 +56,12 @@ export function arrayToTree(
   // in the lookup object and fill it with the data of the parent later
   // if an item has no parentId, add it as a root element to rootItems
   for (const item of items) {
-    const itemId = conf.nestedIds ? getNestedProperty(item, conf.id) : item[conf.id];
-    const parentId = conf.nestedIds ? getNestedProperty(item, conf.parentId) : item[conf.parentId];
+    const itemId = conf.nestedIds
+      ? getNestedProperty(item, conf.id)
+      : item[conf.id];
+    const parentId = conf.nestedIds
+      ? getNestedProperty(item, conf.parentId)
+      : item[conf.parentId];
 
     if (conf.rootParentIds[itemId]) {
       throw new Error(

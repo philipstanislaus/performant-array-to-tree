@@ -17,6 +17,7 @@ export interface Config {
     rootParentIds: {
         [rootParentId: string]: true;
     };
+    nestedIds: boolean;
 }
 /**
  * Unflattens an array to a tree with runtime O(n)

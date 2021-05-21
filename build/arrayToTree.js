@@ -19,6 +19,7 @@ var defaultConfig = {
     childrenField: "children",
     throwIfOrphans: false,
     rootParentIds: { "": true },
+    nestedIds: true,
 };
 /**
  * Unflattens an array to a tree with runtime O(n)
@@ -42,8 +43,12 @@ function arrayToTree(items, config) {
     // if an item has no parentId, add it as a root element to rootItems
     for (var _i = 0, items_1 = items; _i < items_1.length; _i++) {
         var item = items_1[_i];
-        var itemId = getNestedProperty(item, conf.id);
-        var parentId = getNestedProperty(item, conf.parentId);
+        var itemId = conf.nestedIds
+            ? getNestedProperty(item, conf.id)
+            : item[conf.id];
+        var parentId = conf.nestedIds
+            ? getNestedProperty(item, conf.parentId)
+            : item[conf.parentId];
         if (conf.rootParentIds[itemId]) {
             throw new Error("The item array contains a node whose parentId both exists in another node and is in " +
                 ("`rootParentIds` (`itemId`: \"" + itemId + "\", `rootParentIds`: " + Object.keys(conf.rootParentIds)
