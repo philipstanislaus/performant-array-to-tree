@@ -66,10 +66,11 @@ You can provide a second argument to arrayToTree with configuration options. Rig
 
 - `id`: key of the id field of the item. Also works with nested properties (e. g. `"nested.parentId"`). Default: `"id"`.
 - `parentId`: key of the parent's id field of the item. Also works with nested properties (e. g. `"nested.parentId"`). Default: `"parentId"`.
+- `nestedIds`: option to enable/disable nested ids. Default: `true`.
 - `childrenField`: key which will contain all child nodes of the parent node. Default: `"children"`
 - `dataField`: key which will contain all properties/data of the original items. Set to null if you don't want a container. Default: `"data"`
 - `throwIfOrphans`: option to throw an error if the array of items contains one or more items that have no parents in the array. This option has a small runtime penalty, so it's disabled by default. When enabled, the function will throw an error containing the parentIds that were not found in the items array. When disabled, the function will just ignore orphans and not add them to the tree. Default: `false`
-- `rootParentIds`: Object with parent ids as keys and `true` as values that should be considered the top or root elements of the tree. This is useful when your tree is a subset of full tree, which means there is no item whose parent id is one of `undefined`, `null` or `''`. The array you pass in will be replace the default value. `undefined` and `null` are always considered to be rootParentIds. For more details, see [#23](https://github.com/philipstanislaus/performant-array-to-tree/issues/23). Default: `{'': true}`
+- `rootParentIds`: object with parent ids as keys and `true` as values that should be considered the top or root elements of the tree. This is useful when your tree is a subset of full tree, which means there is no item whose parent id is one of `undefined`, `null` or `''`. The array you pass in will be replace the default value. `undefined` and `null` are always considered to be rootParentIds. For more details, see [#23](https://github.com/philipstanislaus/performant-array-to-tree/issues/23). Default: `{'': true}`
 
 Example:
 

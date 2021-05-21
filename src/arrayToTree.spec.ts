@@ -81,6 +81,33 @@ describe("arrayToTree", () => {
     ]);
   });
 
+  it("should work with nested objects and a custom key with dots if nested properties are disabled", () => {
+    expect(
+      arrayToTree(
+        [
+          { '.key': "4", 'my.parent': null, custom: "abc" },
+          { '.key': "31", 'my.parent': "4", custom: "12" },
+          { '.key': "1941", 'my.parent': "418", custom: "de" },
+          { '.key': "1", 'my.parent': "418", custom: "ZZZz" },
+          { '.key': "418", 'my.parent': null, custom: "ü" },
+        ],
+        { id: '.key', parentId: 'my.parent', childrenField: "nodes", nestedIds: false }
+      )
+    ).to.deep.equal([
+      {
+        data: { '.key': "4", 'my.parent': null, custom: "abc" },
+        nodes: [{ data: { '.key': "31", 'my.parent': "4", custom: "12" }, nodes: [] }],
+      },
+      {
+        data: { '.key': "418", 'my.parent': null, custom: "ü" },
+        nodes: [
+          { data: { '.key': "1941", 'my.parent': "418", custom: "de" }, nodes: [] },
+          { data: { '.key': "1", 'my.parent': "418", custom: "ZZZz" }, nodes: [] },
+        ],
+      },
+    ]);
+  });
+
   it("should ignore objects if parentId does not exist", () => {
     expect(
       arrayToTree([
