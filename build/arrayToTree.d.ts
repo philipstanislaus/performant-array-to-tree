@@ -1,11 +1,7 @@
 export interface Item {
-    id?: string | number;
-    parentId?: string | number | null;
     [key: string]: any;
 }
 export interface TreeItem {
-    id?: string | number;
-    parentId?: string | number | null;
     [key: string]: Item | TreeItem[] | any;
 }
 export interface Config {
