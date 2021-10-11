@@ -85,10 +85,9 @@ export function arrayToTree(
     if (conf.dataField) {
       lookup[itemId][conf.dataField] = item;
     } else {
-      lookup[itemId] = {
-        ...item,
-        [conf.childrenField]: lookup[itemId][conf.childrenField],
-      };
+      lookup[itemId] = Object.assign(item, {
+        [conf.childrenField]: lookup[itemId][conf.childrenField]
+      })
     }
 
     const treeItem = lookup[itemId];
