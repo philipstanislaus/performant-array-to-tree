@@ -43,7 +43,7 @@ export function arrayToTree(
 
   // stores all item ids that have not been added to the resulting unflattened tree yet
   // this is an opt-in property, since it has a slight runtime overhead
-  const orphanIds: null | Set<string | number> = config.throwIfOrphans
+  const orphanIds: null | Set<string | number> = conf.throwIfOrphans
     ? new Set()
     : null;
 
@@ -129,7 +129,23 @@ export function arrayToTree(
     );
   }
 
+  if (conf.throwIfOrphans && countNodes(rootItems, conf.childrenField) < Object.keys(lookup).length) {
+    throw new Error(
+      `The items array contains nodes with a circular parent/child relationship.`
+    );
+  }
+
   return rootItems;
+}
+
+/**
+ * Returns the number of nodes in a tree in a recursive way
+ * @param tree An array of nodes (tree items), each having a field `childrenField` that contains an array of nodes
+ * @param childrenField Name of the property that contains the array of child nodes
+ * @returns Number of nodes in the tree
+ */
+export function countNodes(tree: TreeItem[], childrenField: string): number {
+  return tree.reduce((sum, n) => sum + 1 + (n[childrenField] && countNodes(n[childrenField], childrenField)), 0);
 }
 
 /**
