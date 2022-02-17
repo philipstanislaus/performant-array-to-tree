@@ -591,6 +591,7 @@ describe("arrayToTree", function () {
                 ],
             },
         ]);
+        (0, chai_1.expect)(mom.legs()).to.equal(4);
         (0, chai_1.expect)(tree[0].__proto__).to.deep.equal(Object.prototype);
         (0, chai_1.expect)(tree[0].legs).to.equal(undefined);
     });
