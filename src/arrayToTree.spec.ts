@@ -748,6 +748,8 @@ describe("arrayToTree", () => {
       },
     ]);
 
+    expect(mom.legs()).to.equal(4);
+
     expect(tree[0].__proto__).to.deep.equal(Object.prototype);
     expect(tree[0].legs).to.equal(undefined);
   });
