@@ -14,6 +14,7 @@ export interface Config {
   throwIfOrphans: boolean;
   rootParentIds: { [rootParentId: string]: true }; // use an object here for fast lookups
   nestedIds: boolean;
+  assign: boolean;
 }
 
 const defaultConfig: Config = {
@@ -24,6 +25,7 @@ const defaultConfig: Config = {
   throwIfOrphans: false,
   rootParentIds: { "": true },
   nestedIds: true,
+  assign: false,
 };
 
 /**
@@ -84,6 +86,10 @@ export function arrayToTree(
     // add the current item's data to the item in the lookup table
     if (conf.dataField) {
       lookup[itemId][conf.dataField] = item;
+    } else if (conf.assign) {
+      lookup[itemId] = Object.assign(item, {
+        [conf.childrenField]: lookup[itemId][conf.childrenField],
+      });
     } else {
       lookup[itemId] = {
         ...item,

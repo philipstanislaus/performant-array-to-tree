@@ -694,6 +694,65 @@ describe("arrayToTree", () => {
       },
     ]);
   });
+
+  it("should keep prototype if assign is enabled", () => {
+    const animal = {
+      legs() {
+        return 4;
+      },
+    };
+
+    const mom = Object.create(animal);
+    mom.id = "mom";
+    mom.parentId = null;
+    const kitty = Object.create(animal);
+    kitty.id = "kitty";
+    kitty.parentId = "mom";
+
+    const tree = arrayToTree([mom, kitty], { dataField: null, assign: true });
+
+    expect(tree).to.deep.equal([mom]);
+
+    expect(tree[0].__proto__).to.deep.equal(animal);
+
+    expect(tree[0].legs()).to.equal(4);
+  });
+
+  it("should not keep prototype if assign is disabled", () => {
+    const animal = {
+      legs() {
+        return 4;
+      },
+    };
+
+    const mom = Object.create(animal);
+    mom.id = "mom";
+    mom.parentId = null;
+    const kitty = Object.create(animal);
+    kitty.id = "kitty";
+    kitty.parentId = "mom";
+
+    const tree = arrayToTree([mom, kitty], { dataField: null, assign: false });
+
+    expect(tree).to.deep.equal([
+      {
+        id: "mom",
+        parentId: null,
+        children: [
+          {
+            id: "kitty",
+            parentId: "mom",
+            children: [],
+          },
+        ],
+      },
+    ]);
+
+    expect(mom.legs()).to.equal(4);
+
+    expect(tree[0].__proto__).to.deep.equal(Object.prototype);
+    expect(tree[0].legs).to.equal(undefined);
+  });
 });
 
 describe("countNodes", () => {

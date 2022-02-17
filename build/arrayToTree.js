@@ -20,12 +20,13 @@ var defaultConfig = {
     throwIfOrphans: false,
     rootParentIds: { "": true },
     nestedIds: true,
+    assign: false,
 };
 /**
  * Unflattens an array to a tree with runtime O(n)
  */
 function arrayToTree(items, config) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     if (config === void 0) { config = {}; }
     var conf = __assign(__assign({}, defaultConfig), config);
     // the resulting unflattened tree
@@ -68,8 +69,13 @@ function arrayToTree(items, config) {
         if (conf.dataField) {
             lookup[itemId][conf.dataField] = item;
         }
+        else if (conf.assign) {
+            lookup[itemId] = Object.assign(item, (_b = {},
+                _b[conf.childrenField] = lookup[itemId][conf.childrenField],
+                _b));
+        }
         else {
-            lookup[itemId] = __assign(__assign({}, item), (_b = {}, _b[conf.childrenField] = lookup[itemId][conf.childrenField], _b));
+            lookup[itemId] = __assign(__assign({}, item), (_c = {}, _c[conf.childrenField] = lookup[itemId][conf.childrenField], _c));
         }
         var treeItem = lookup[itemId];
         if (parentId === null ||
@@ -83,7 +89,7 @@ function arrayToTree(items, config) {
             // look whether the parent already exists in the lookup table
             if (!Object.prototype.hasOwnProperty.call(lookup, parentId)) {
                 // parent is not yet there, so add a preliminary parent (its data will be added later)
-                lookup[parentId] = (_c = {}, _c[conf.childrenField] = [], _c);
+                lookup[parentId] = (_d = {}, _d[conf.childrenField] = [], _d);
                 // if we track orphans, add the generated parent to the orphan list
                 if (orphanIds) {
                     orphanIds.add(parentId);
