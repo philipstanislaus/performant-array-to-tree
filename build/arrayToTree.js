@@ -109,6 +109,6 @@ exports.arrayToTree = arrayToTree;
  * @param nestedProperty the chained properties to access the nested property. Eg: 'your.nested.property'
  */
 function getNestedProperty(item, nestedProperty) {
-    return nestedProperty.split(".").reduce(function (o, i) { return o[i]; }, item);
+    return nestedProperty.split(".").reduce(function (o, i) { return o && o[i]; }, item);
 }
 //# sourceMappingURL=arrayToTree.js.map

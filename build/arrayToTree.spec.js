@@ -49,6 +49,19 @@ describe("arrayToTree", function () {
             },
         ]);
     });
+    it("should work with integer parentId 0", function () {
+        chai_1.expect(arrayToTree_1.arrayToTree([
+            { id: 0, parentId: null, custom: "abc" },
+            { id: 31, parentId: 0, custom: "12" },
+        ])).to.deep.equal([
+            {
+                data: { id: 0, parentId: null, custom: "abc" },
+                children: [
+                    { data: { id: 31, parentId: 0, custom: "12" }, children: [] },
+                ],
+            },
+        ]);
+    });
     it("should work with nested objects and custom keys", function () {
         chai_1.expect(arrayToTree_1.arrayToTree([
             { num: "4", ref: null, custom: "abc" },
@@ -445,6 +458,38 @@ describe("arrayToTree", function () {
         ], { id: "one.id", parentId: "two.parentId" })).to.deep.equal([
             {
                 data: { one: { id: "1" }, two: { parentId: null }, custom: "1" },
+                children: [
+                    {
+                        data: { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
+                        children: [],
+                    },
+                ],
+            },
+        ]);
+    });
+    it("should work with nested id and parentId properties if the parent is null", function () {
+        chai_1.expect(arrayToTree_1.arrayToTree([
+            { one: { id: "1" }, two: null, custom: "1" },
+            { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
+        ], { id: "one.id", parentId: "two.parentId" })).to.deep.equal([
+            {
+                data: { one: { id: "1" }, two: null, custom: "1" },
+                children: [
+                    {
+                        data: { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
+                        children: [],
+                    },
+                ],
+            },
+        ]);
+    });
+    it("should work with nested id and parentId properties if the parent is undefined", function () {
+        chai_1.expect(arrayToTree_1.arrayToTree([
+            { one: { id: "1" }, custom: "1" },
+            { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
+        ], { id: "one.id", parentId: "two.parentId" })).to.deep.equal([
+            {
+                data: { one: { id: "1" }, custom: "1" },
                 children: [
                     {
                         data: { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
