@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.arrayToTree = void 0;
+exports.countNodes = exports.arrayToTree = void 0;
 var defaultConfig = {
     id: "id",
     parentId: "parentId",
@@ -34,7 +34,7 @@ function arrayToTree(items, config) {
     var lookup = {};
     // stores all item ids that have not been added to the resulting unflattened tree yet
     // this is an opt-in property, since it has a slight runtime overhead
-    var orphanIds = config.throwIfOrphans
+    var orphanIds = conf.throwIfOrphans
         ? new Set()
         : null;
     // idea of this loop:
@@ -98,9 +98,27 @@ function arrayToTree(items, config) {
             "[".concat(Array.from(orphanIds), "]. These parentIds do not exist in the items array. Hint: prevent orphans to result ") +
             "in an error by passing the following option: { throwIfOrphans: false }");
     }
+    if (conf.throwIfOrphans &&
+        countNodes(rootItems, conf.childrenField) < Object.keys(lookup).length) {
+        throw new Error("The items array contains nodes with a circular parent/child relationship.");
+    }
     return rootItems;
 }
 exports.arrayToTree = arrayToTree;
+/**
+ * Returns the number of nodes in a tree in a recursive way
+ * @param tree An array of nodes (tree items), each having a field `childrenField` that contains an array of nodes
+ * @param childrenField Name of the property that contains the array of child nodes
+ * @returns Number of nodes in the tree
+ */
+function countNodes(tree, childrenField) {
+    return tree.reduce(function (sum, n) {
+        return sum +
+            1 +
+            (n[childrenField] && countNodes(n[childrenField], childrenField));
+    }, 0);
+}
+exports.countNodes = countNodes;
 /**
  * Returns the value of a nested property inside an item
  * Example: user can access 'id', or 'parentId' inside item = { nestedObject: { id: 'myId', parentId: 'myParentId' } }

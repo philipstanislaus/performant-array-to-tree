@@ -129,7 +129,10 @@ export function arrayToTree(
     );
   }
 
-  if (conf.throwIfOrphans && countNodes(rootItems, conf.childrenField) < Object.keys(lookup).length) {
+  if (
+    conf.throwIfOrphans &&
+    countNodes(rootItems, conf.childrenField) < Object.keys(lookup).length
+  ) {
     throw new Error(
       `The items array contains nodes with a circular parent/child relationship.`
     );
@@ -145,7 +148,13 @@ export function arrayToTree(
  * @returns Number of nodes in the tree
  */
 export function countNodes(tree: TreeItem[], childrenField: string): number {
-  return tree.reduce((sum, n) => sum + 1 + (n[childrenField] && countNodes(n[childrenField], childrenField)), 0);
+  return tree.reduce(
+    (sum, n) =>
+      sum +
+      1 +
+      (n[childrenField] && countNodes(n[childrenField], childrenField)),
+    0
+  );
 }
 
 /**

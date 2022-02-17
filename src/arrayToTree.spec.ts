@@ -30,13 +30,16 @@ describe("arrayToTree", () => {
 
   it("should work with nested objects if throwIfOrphans is set to true", () => {
     expect(
-      arrayToTree([
-        { id: "4", parentId: null, custom: "abc" },
-        { id: "31", parentId: "4", custom: "12" },
-        { id: "1941", parentId: "418", custom: "de" },
-        { id: "1", parentId: "418", custom: "ZZZz" },
-        { id: "418", parentId: null, custom: "ü" },
-      ], { throwIfOrphans: true })
+      arrayToTree(
+        [
+          { id: "4", parentId: null, custom: "abc" },
+          { id: "31", parentId: "4", custom: "12" },
+          { id: "1941", parentId: "418", custom: "de" },
+          { id: "1", parentId: "418", custom: "ZZZz" },
+          { id: "418", parentId: null, custom: "ü" },
+        ],
+        { throwIfOrphans: true }
+      )
     ).to.deep.equal([
       {
         data: { id: "4", parentId: null, custom: "abc" },
@@ -60,8 +63,7 @@ describe("arrayToTree", () => {
         { id: "4", parentId: "31", custom: "abc" },
         { id: "31", parentId: "4", custom: "12" },
       ])
-    ).to.deep.equal([
-    ]);
+    ).to.deep.equal([]);
 
     expect(
       arrayToTree([
@@ -69,25 +71,34 @@ describe("arrayToTree", () => {
         { id: "31", parentId: "5", custom: "12" },
         { id: "5", parentId: "4", custom: "12" },
       ])
-    ).to.deep.equal([
-    ]);
+    ).to.deep.equal([]);
   });
 
   it("should throw if throwIfOrphans is enabled and circular parent child relations are encountered, see #37", () => {
-    expect(
-      () => arrayToTree([
-        { id: "4", parentId: "31", custom: "abc" },
-        { id: "31", parentId: "4", custom: "12" },
-      ], { throwIfOrphans: true })
-    ).to.throw('The items array contains nodes with a circular parent/child relationship.');
+    expect(() =>
+      arrayToTree(
+        [
+          { id: "4", parentId: "31", custom: "abc" },
+          { id: "31", parentId: "4", custom: "12" },
+        ],
+        { throwIfOrphans: true }
+      )
+    ).to.throw(
+      "The items array contains nodes with a circular parent/child relationship."
+    );
 
-    expect(
-      () => arrayToTree([
-        { id: "4", parentId: "31", custom: "abc" },
-        { id: "31", parentId: "5", custom: "12" },
-        { id: "5", parentId: "4", custom: "12" },
-      ], { throwIfOrphans: true })
-    ).to.throw('The items array contains nodes with a circular parent/child relationship.');
+    expect(() =>
+      arrayToTree(
+        [
+          { id: "4", parentId: "31", custom: "abc" },
+          { id: "31", parentId: "5", custom: "12" },
+          { id: "5", parentId: "4", custom: "12" },
+        ],
+        { throwIfOrphans: true }
+      )
+    ).to.throw(
+      "The items array contains nodes with a circular parent/child relationship."
+    );
   });
 
   it("should work with integer keys", () => {
@@ -688,28 +699,29 @@ describe("arrayToTree", () => {
 describe("countNodes", () => {
   it("should work with nested objects", () => {
     expect(
-      countNodes(arrayToTree([
-        { id: "4", parentId: null, custom: "abc" },
-        { id: "31", parentId: "4", custom: "12" },
-        { id: "1941", parentId: "418", custom: "de" },
-        { id: "1", parentId: "418", custom: "ZZZz" },
-        { id: "418", parentId: null, custom: "ü" },
-      ]), 'children')
+      countNodes(
+        arrayToTree([
+          { id: "4", parentId: null, custom: "abc" },
+          { id: "31", parentId: "4", custom: "12" },
+          { id: "1941", parentId: "418", custom: "de" },
+          { id: "1", parentId: "418", custom: "ZZZz" },
+          { id: "418", parentId: null, custom: "ü" },
+        ]),
+        "children"
+      )
     ).to.equal(5);
   });
 
   it("should work for 1 node", () => {
     expect(
-      countNodes(arrayToTree([
-        { id: "4", parentId: null, custom: "abc" },
-      ]), 'children')
+      countNodes(
+        arrayToTree([{ id: "4", parentId: null, custom: "abc" }]),
+        "children"
+      )
     ).to.equal(1);
   });
 
   it("should work for 0 nodes", () => {
-    expect(
-      countNodes(arrayToTree([
-      ]), 'children')
-    ).to.equal(0);
+    expect(countNodes(arrayToTree([]), "children")).to.equal(0);
   });
 });
