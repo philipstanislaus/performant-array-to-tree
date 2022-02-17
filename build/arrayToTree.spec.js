@@ -4,7 +4,7 @@ var chai_1 = require("chai");
 var arrayToTree_1 = require("./arrayToTree");
 describe("arrayToTree", function () {
     it("should work with nested objects", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { id: "4", parentId: null, custom: "abc" },
             { id: "31", parentId: "4", custom: "12" },
             { id: "1941", parentId: "418", custom: "de" },
@@ -27,7 +27,7 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should work with integer keys", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { id: 4, parentId: null, custom: "abc" },
             { id: 31, parentId: 4, custom: "12" },
             { id: 1941, parentId: 418, custom: "de" },
@@ -49,8 +49,21 @@ describe("arrayToTree", function () {
             },
         ]);
     });
+    it("should work with integer parentId 0", function () {
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
+            { id: 0, parentId: null, custom: "abc" },
+            { id: 31, parentId: 0, custom: "12" },
+        ])).to.deep.equal([
+            {
+                data: { id: 0, parentId: null, custom: "abc" },
+                children: [
+                    { data: { id: 31, parentId: 0, custom: "12" }, children: [] },
+                ],
+            },
+        ]);
+    });
     it("should work with nested objects and custom keys", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { num: "4", ref: null, custom: "abc" },
             { num: "31", ref: "4", custom: "12" },
             { num: "1941", ref: "418", custom: "de" },
@@ -71,7 +84,7 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should work with nested objects and a custom key with dots if nested properties are disabled", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { ".key": "4", "my.parent": null, custom: "abc" },
             { ".key": "31", "my.parent": "4", custom: "12" },
             { ".key": "1941", "my.parent": "418", custom: "de" },
@@ -105,7 +118,7 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should ignore objects if parentId does not exist", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { id: "4", parentId: null, custom: "abc" },
             { id: "31", parentId: "4", custom: "12" },
             { id: "1941", parentId: "418", custom: "de" },
@@ -129,7 +142,7 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should work with nested objects with dataField set to null", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { id: "4", parentId: null, custom: "abc" },
             { id: "31", parentId: "4", custom: "12" },
             { id: "1941", parentId: "418", custom: "de" },
@@ -154,7 +167,7 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should work with nested objects and custom keys with dataField set to null", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { num: "4", ref: null, custom: "abc" },
             { num: "31", ref: "4", custom: "12" },
             { num: "1941", ref: "418", custom: "de" },
@@ -179,7 +192,7 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should ignore objects if parentId does not exist with dataField set to null", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { id: "4", parentId: null, custom: "abc" },
             { id: "31", parentId: "4", custom: "12" },
             { id: "1941", parentId: "418", custom: "de" },
@@ -205,7 +218,7 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should treat objects with missing parentId as root objects", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { id: "4", custom: "abc" },
             { id: "31", parentId: "4", custom: "12" },
             { id: "1941", parentId: "418", custom: "de" },
@@ -229,7 +242,7 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should treat objects with empty string as parentId as root objects", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { id: "4", parentId: "", custom: "abc" },
             { id: "31", parentId: "4", custom: "12" },
             { id: "1941", parentId: "418", custom: "de" },
@@ -253,7 +266,7 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should treat objects with non-zero length string as parentId as root objects if these parent ids are in rootParentIds", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { id: "4", parentId: "orphan1", custom: "abc" },
             { id: "31", parentId: "4", custom: "12" },
             { id: "1941", parentId: "418", custom: "de" },
@@ -279,7 +292,7 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should not throw if orphans exist but throwIfOrphans is false", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { id: "4", parentId: null, custom: "abc" },
             { id: "31", parentId: "4", custom: "12" },
             { id: "418", parentId: "6", custom: "ü" },
@@ -293,8 +306,8 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should throw if orphans exist and throwIfOrphans is true", function () {
-        chai_1.expect(function () {
-            return arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)(function () {
+            return (0, arrayToTree_1.arrayToTree)([
                 { id: "4", parentId: null, custom: "abc" },
                 { id: "31", parentId: "4", custom: "12" },
                 { id: "418", parentId: "6", custom: "ü" },
@@ -306,7 +319,7 @@ describe("arrayToTree", function () {
             "Hint: prevent orphans to result in an error by passing the following option: { throwIfOrphans: false }");
     });
     it("should not throw if no orphans exist and throwIfOrphans is true, but the order is different (see #18)", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { id: "2", parentId: "root", foo: "bar" },
             { id: "1-1", parentId: "1", foo: "bar" },
             { id: "1", parentId: "root", foo: "bar" },
@@ -329,8 +342,8 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should throw if orphans exist and throwIfOrphans is true and rootParentIds don't contain orphan parentId", function () {
-        chai_1.expect(function () {
-            return arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)(function () {
+            return (0, arrayToTree_1.arrayToTree)([
                 { id: "4", parentId: null, custom: "abc" },
                 { id: "31", parentId: "4", custom: "12" },
                 { id: "418", parentId: "6", custom: "ü" },
@@ -345,8 +358,8 @@ describe("arrayToTree", function () {
             "Hint: prevent orphans to result in an error by passing the following option: { throwIfOrphans: false }");
     });
     it("should throw if a node has parentId that both exists in another node and is in rootParentIds", function () {
-        chai_1.expect(function () {
-            return arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)(function () {
+            return (0, arrayToTree_1.arrayToTree)([
                 { id: "fakeOrphan", parentId: null },
                 { id: "aaa", parentId: "fakeOrphan" },
                 { id: "bbb", parentId: "aaa" },
@@ -359,7 +372,7 @@ describe("arrayToTree", function () {
             '(`itemId`: "fakeOrphan", `rootParentIds`: "", "fakeOrphan").');
     });
     it("should replace default rootParentIds by the provided value", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { id: "4", parentId: "", custom: "abc" },
             { id: "31", parentId: "4", custom: "12" },
             { id: "418", parentId: "6", custom: "ü" },
@@ -370,10 +383,10 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should work with empty inputs", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([])).to.deep.equal([]);
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([])).to.deep.equal([]);
     });
     it("should work with nested objects and nested id and parentId properties", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { nested: { id: "1", parentId: null, custom: "1" } },
             { nested: { id: "1.1", parentId: "1", custom: "1.1" } },
             { nested: { id: "1.1.1", parentId: "1.1", custom: "1.1.1" } },
@@ -407,7 +420,7 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should work with nested id property", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { one: { id: "1" }, parentId: null, custom: "1" },
             { one: { id: "1.1" }, parentId: "1", custom: "1.1" },
         ], { id: "one.id", parentId: "parentId" })).to.deep.equal([
@@ -423,7 +436,7 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should work with nested parentId property", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { id: "1", two: { parentId: null }, custom: "1" },
             { id: "1.1", two: { parentId: "1" }, custom: "1.1" },
         ], { id: "id", parentId: "two.parentId" })).to.deep.equal([
@@ -439,12 +452,44 @@ describe("arrayToTree", function () {
         ]);
     });
     it("should work with nested id and parentId properties", function () {
-        chai_1.expect(arrayToTree_1.arrayToTree([
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
             { one: { id: "1" }, two: { parentId: null }, custom: "1" },
             { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
         ], { id: "one.id", parentId: "two.parentId" })).to.deep.equal([
             {
                 data: { one: { id: "1" }, two: { parentId: null }, custom: "1" },
+                children: [
+                    {
+                        data: { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
+                        children: [],
+                    },
+                ],
+            },
+        ]);
+    });
+    it("should work with nested id and parentId properties if the parent is null", function () {
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
+            { one: { id: "1" }, two: null, custom: "1" },
+            { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
+        ], { id: "one.id", parentId: "two.parentId" })).to.deep.equal([
+            {
+                data: { one: { id: "1" }, two: null, custom: "1" },
+                children: [
+                    {
+                        data: { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
+                        children: [],
+                    },
+                ],
+            },
+        ]);
+    });
+    it("should work with nested id and parentId properties if the parent is undefined", function () {
+        (0, chai_1.expect)((0, arrayToTree_1.arrayToTree)([
+            { one: { id: "1" }, custom: "1" },
+            { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
+        ], { id: "one.id", parentId: "two.parentId" })).to.deep.equal([
+            {
+                data: { one: { id: "1" }, custom: "1" },
                 children: [
                     {
                         data: { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },

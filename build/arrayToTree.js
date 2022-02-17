@@ -51,9 +51,9 @@ function arrayToTree(items, config) {
             : item[conf.parentId];
         if (conf.rootParentIds[itemId]) {
             throw new Error("The item array contains a node whose parentId both exists in another node and is in " +
-                ("`rootParentIds` (`itemId`: \"" + itemId + "\", `rootParentIds`: " + Object.keys(conf.rootParentIds)
-                    .map(function (r) { return "\"" + r + "\""; })
-                    .join(", ") + ")."));
+                "`rootParentIds` (`itemId`: \"".concat(itemId, "\", `rootParentIds`: ").concat(Object.keys(conf.rootParentIds)
+                    .map(function (r) { return "\"".concat(r, "\""); })
+                    .join(", "), ")."));
         }
         // look whether item already exists in the lookup table
         if (!Object.prototype.hasOwnProperty.call(lookup, itemId)) {
@@ -95,7 +95,7 @@ function arrayToTree(items, config) {
     }
     if (orphanIds === null || orphanIds === void 0 ? void 0 : orphanIds.size) {
         throw new Error("The items array contains orphans that point to the following parentIds: " +
-            ("[" + Array.from(orphanIds) + "]. These parentIds do not exist in the items array. Hint: prevent orphans to result ") +
+            "[".concat(Array.from(orphanIds), "]. These parentIds do not exist in the items array. Hint: prevent orphans to result ") +
             "in an error by passing the following option: { throwIfOrphans: false }");
     }
     return rootItems;
@@ -109,6 +109,6 @@ exports.arrayToTree = arrayToTree;
  * @param nestedProperty the chained properties to access the nested property. Eg: 'your.nested.property'
  */
 function getNestedProperty(item, nestedProperty) {
-    return nestedProperty.split(".").reduce(function (o, i) { return o[i]; }, item);
+    return nestedProperty.split(".").reduce(function (o, i) { return o && o[i]; }, item);
 }
 //# sourceMappingURL=arrayToTree.js.map
