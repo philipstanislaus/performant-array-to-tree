@@ -140,5 +140,5 @@ export function arrayToTree(
  * @param nestedProperty the chained properties to access the nested property. Eg: 'your.nested.property'
  */
 function getNestedProperty(item: Item, nestedProperty: string) {
-  return nestedProperty.split(".").reduce((o, i) => o[i], item);
+  return nestedProperty.split(".").reduce((o, i) => o && o[i], item);
 }

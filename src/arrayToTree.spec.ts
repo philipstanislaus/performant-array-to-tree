@@ -495,6 +495,7 @@ describe("arrayToTree", () => {
       },
     ]);
   });
+
   it("should work with nested id property", () => {
     expect(
       arrayToTree(
@@ -516,6 +517,7 @@ describe("arrayToTree", () => {
       },
     ]);
   });
+
   it("should work with nested parentId property", () => {
     expect(
       arrayToTree(
@@ -537,6 +539,7 @@ describe("arrayToTree", () => {
       },
     ]);
   });
+
   it("should work with nested id and parentId properties", () => {
     expect(
       arrayToTree(
@@ -549,6 +552,50 @@ describe("arrayToTree", () => {
     ).to.deep.equal([
       {
         data: { one: { id: "1" }, two: { parentId: null }, custom: "1" },
+        children: [
+          {
+            data: { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
+            children: [],
+          },
+        ],
+      },
+    ]);
+  });
+
+  it("should work with nested id and parentId properties if the parent is null", () => {
+    expect(
+      arrayToTree(
+        [
+          { one: { id: "1" }, two: null, custom: "1" },
+          { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
+        ],
+        { id: "one.id", parentId: "two.parentId" }
+      )
+    ).to.deep.equal([
+      {
+        data: { one: { id: "1" }, two: null, custom: "1" },
+        children: [
+          {
+            data: { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
+            children: [],
+          },
+        ],
+      },
+    ]);
+  });
+
+  it("should work with nested id and parentId properties if the parent is undefined", () => {
+    expect(
+      arrayToTree(
+        [
+          { one: { id: "1" }, custom: "1" },
+          { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
+        ],
+        { id: "one.id", parentId: "two.parentId" }
+      )
+    ).to.deep.equal([
+      {
+        data: { one: { id: "1" }, custom: "1" },
         children: [
           {
             data: { one: { id: "1.1" }, two: { parentId: "1" }, custom: "1.1" },
