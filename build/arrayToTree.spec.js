@@ -548,6 +548,52 @@ describe("arrayToTree", function () {
             },
         ]);
     });
+    it("should keep prototype if assign is enabled", function () {
+        var animal = {
+            legs: function () {
+                return 4;
+            },
+        };
+        var mom = Object.create(animal);
+        mom.id = "mom";
+        mom.parentId = null;
+        var kitty = Object.create(animal);
+        kitty.id = "kitty";
+        kitty.parentId = "mom";
+        var tree = (0, arrayToTree_1.arrayToTree)([mom, kitty], { dataField: null, assign: true });
+        (0, chai_1.expect)(tree).to.deep.equal([mom]);
+        (0, chai_1.expect)(tree[0].__proto__).to.deep.equal(animal);
+        (0, chai_1.expect)(tree[0].legs()).to.equal(4);
+    });
+    it("should not keep prototype if assign is disabled", function () {
+        var animal = {
+            legs: function () {
+                return 4;
+            },
+        };
+        var mom = Object.create(animal);
+        mom.id = "mom";
+        mom.parentId = null;
+        var kitty = Object.create(animal);
+        kitty.id = "kitty";
+        kitty.parentId = "mom";
+        var tree = (0, arrayToTree_1.arrayToTree)([mom, kitty], { dataField: null, assign: false });
+        (0, chai_1.expect)(tree).to.deep.equal([
+            {
+                id: "mom",
+                parentId: null,
+                children: [
+                    {
+                        id: "kitty",
+                        parentId: "mom",
+                        children: [],
+                    },
+                ],
+            },
+        ]);
+        (0, chai_1.expect)(tree[0].__proto__).to.deep.equal(Object.prototype);
+        (0, chai_1.expect)(tree[0].legs).to.equal(undefined);
+    });
 });
 describe("countNodes", function () {
     it("should work with nested objects", function () {
