@@ -54,6 +54,22 @@ describe("arrayToTree", () => {
     ]);
   });
 
+  it("should work with integer parentId 0", () => {
+    expect(
+      arrayToTree([
+        { id: 0, parentId: null, custom: "abc" },
+        { id: 31, parentId: 0, custom: "12" },
+      ])
+    ).to.deep.equal([
+      {
+        data: { id: 0, parentId: null, custom: "abc" },
+        children: [
+          { data: { id: 31, parentId: 0, custom: "12" }, children: [] },
+        ],
+      },
+    ]);
+  });
+
   it("should work with nested objects and custom keys", () => {
     expect(
       arrayToTree(
