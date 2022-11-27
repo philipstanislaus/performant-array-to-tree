@@ -71,6 +71,7 @@ You can provide a second argument to arrayToTree with configuration options. Rig
 - `throwIfOrphans`: Option to throw an error if the array of items contains one or more items that have no parents in the array or if the array of items contains items with a circular parent/child relationship. This option has a small runtime penalty, so it's disabled by default. When enabled, the function will throw an error containing the parentIds that were not found in the items array, or in the case of only circular item relationships a generic error. The function will throw an error if the number of nodes in the tree is smaller than the number of nodes in the original array. When disabled, the function will just ignore orphans and circular relationships and not add them to the tree. Default: `false`
 - `rootParentIds`: Object with parent ids as keys and `true` as values that should be considered the top or root elements of the tree. This is useful when your tree is a subset of full tree, which means there is no item whose parent id is one of `undefined`, `null` or `''`. The array you pass in will be replace the default value. `undefined` and `null` are always considered to be rootParentIds. For more details, see [#23](https://github.com/philipstanislaus/performant-array-to-tree/issues/23). Default: `{'': true}`
 - `assign`: Option that enables `Object.assign` instead of the spread operator to create an item in the tree when `dataField` is `null`. This is useful if your items have a prototype that should be maintained. If enabled and `dataField` is `null`, the original node item will be used, and the `children` property will be assigned, calling any setters on that field. If `dataField` is not `null`, this option has no effect, since the original node will be used under the `dataField` of a new object. If you are unsure whether you need to enable this, it's likely fine to leave it disabled. Default: `false`
+- `transform`: Option to transform the item, provide `string[]` to pick some props or `function` for fully control. Default: `undefined`
 
 Example:
 
@@ -165,6 +166,81 @@ Which produces:
         data: { num: { id: "31" }, parent: { parentId: "4" }, custom: "12" },
         children: [],
       },
+    ],
+  },
+];
+```
+
+Example with transform with special keys:
+
+```js
+const tree = arrayToTree([
+  { id: "4", parentId: null, custom: "abc", custom2: "other" },
+  { id: "31", parentId: "4", custom: "12", custom2: "other" },
+  { id: "1941", parentId: "418", custom: "de", custom2: "other" },
+  { id: "1", parentId: "418", custom: "ZZZz", custom2: "other" },
+  { id: "418", parentId: null, custom: "ü", custom2: "other" },
+], {
+   transform: [ 'id', 'parentId', 'custom' ],
+});
+```
+
+Which results in the following array with speical keys:
+
+```js
+[
+  {
+    data: { id: "4", parentId: null, custom: "abc" },
+    children: [
+      { data: { id: "31", parentId: "4", custom: "12" }, children: [] },
+    ],
+  },
+  {
+    data: { id: "418", parentId: null, custom: "ü" },
+    children: [
+      { data: { id: "1941", parentId: "418", custom: "de" }, children: [] },
+      { data: { id: "1", parentId: "418", custom: "ZZZz" }, children: [] },
+    ],
+  },
+];
+```
+
+Example with transform with custom function:
+
+```js
+const tree = arrayToTree([
+  { id: "4", parentId: null, custom: "abc", custom2: "other" },
+  { id: "31", parentId: "4", custom: "12", custom2: "other" },
+  { id: "1941", parentId: "418", custom: "de", custom2: "other" },
+  { id: "1", parentId: "418", custom: "ZZZz", custom2: "other" },
+  { id: "418", parentId: null, custom: "ü", custom2: "other" },
+], {
+   transform: (node) => {
+    return {
+      id: node.id,
+      parentId: node.parentId,
+      custom: node.custom,
+      custom2: node.custom + '2',
+    };
+   },
+});
+```
+
+Which results in the following array with speical keys:
+
+```js
+[
+  {
+    data: { id: "4", parentId: null, custom: "abc", custom2: "abc2" },
+    children: [
+      { data: { id: "31", parentId: "4", custom: "12", custom2: "122" }, children: [] },
+    ],
+  },
+  {
+    data: { id: "418", parentId: null, custom: "ü", custom2: "ü2", },
+    children: [
+      { data: { id: "1941", parentId: "418", custom: "de", custom2: "de2" }, children: [] },
+      { data: { id: "1", parentId: "418", custom: "ZZZz", custom2: "ZZZz2" }, children: [] },
     ],
   },
 ];
