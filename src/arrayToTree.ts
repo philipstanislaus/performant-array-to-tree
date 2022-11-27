@@ -15,6 +15,7 @@ export interface Config {
   rootParentIds: { [rootParentId: string]: true }; // use an object here for fast lookups
   nestedIds: boolean;
   assign: boolean;
+  transform?: string[] | ((item: Item) => Item);
 }
 
 const defaultConfig: Config = {
@@ -83,16 +84,19 @@ export function arrayToTree(
       orphanIds.delete(itemId);
     }
 
+    // transform the item data if necessary
+    const dataItem = conf.transform ? extractItem(item, conf.transform) : item;
+
     // add the current item's data to the item in the lookup table
     if (conf.dataField) {
-      lookup[itemId][conf.dataField] = item;
+      lookup[itemId][conf.dataField] = dataItem;
     } else if (conf.assign) {
-      lookup[itemId] = Object.assign(item, {
+      lookup[itemId] = Object.assign(dataItem, {
         [conf.childrenField]: lookup[itemId][conf.childrenField],
       });
     } else {
       lookup[itemId] = {
-        ...item,
+        ...dataItem,
         [conf.childrenField]: lookup[itemId][conf.childrenField],
       };
     }
@@ -172,4 +176,16 @@ export function countNodes(tree: TreeItem[], childrenField: string): number {
  */
 function getNestedProperty(item: Item, nestedProperty: string) {
   return nestedProperty.split(".").reduce((o, i) => o && o[i], item);
+}
+
+function extractItem(item: Item, transform: string[] | ((item: Item) => Item)) {
+  if (Array.isArray(transform)) {
+    const newItem: Item = {};
+    for (const key of transform) {
+      newItem[key] = item[key];
+    }
+    return newItem;
+  } else {
+    return transform(item);
+  }
 }

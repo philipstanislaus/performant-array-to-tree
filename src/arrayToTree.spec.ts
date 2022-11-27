@@ -753,6 +753,69 @@ describe("arrayToTree", () => {
     expect(tree[0].__proto__).to.deep.equal(Object.prototype);
     expect(tree[0].legs).to.equal(undefined);
   });
+
+  it("should transform with special keys", () => {
+    expect(
+      arrayToTree([
+        { id: "4", parentId: null, custom: "abc", custom2: "def", custom3: 'xzy' },
+        { id: "31", parentId: "4", custom: "12", custom2: "345", custom3: '678' },
+        { id: "1941", parentId: "418", custom: "de", custom2: "dede", custom3: 'xxx' },
+        { id: "1", parentId: "418", custom: "ZZZz", custom2: "xxx", custom3: '12365' },
+        { id: "418", parentId: null, custom: "ü", custom2: "1qa", custom3: '3sa' },
+      ], {
+        transform: [ 'id', 'parentId', 'custom', 'custom2' ],
+      })
+    ).to.deep.equal([
+      {
+        data: { id: "4", parentId: null, custom: "abc", custom2: "def" },
+        children: [
+          { data: { id: "31", parentId: "4", custom: "12", custom2: "345" }, children: [] },
+        ],
+      },
+      {
+        data: { id: "418", parentId: null, custom: "ü", custom2: "1qa" },
+        children: [
+          { data: { id: "1941", parentId: "418", custom: "de", custom2: "dede", }, children: [] },
+          { data: { id: "1", parentId: "418", custom: "ZZZz", custom2: "xxx" }, children: [] },
+        ],
+      },
+    ]);
+  });
+
+  it("should transform with fn", () => {
+    expect(
+      arrayToTree([
+        { id: "4", parentId: null, custom: "abc" },
+        { id: "31", parentId: "4", custom: "12" },
+        { id: "1941", parentId: "418", custom: "de" },
+        { id: "1", parentId: "418", custom: "ZZZz" },
+        { id: "418", parentId: null, custom: "ü" },
+      ], {
+        transform: (node) => {
+          return {
+            id: node.id,
+            parentId: node.parentId,
+            custom: node.custom,
+            custom2: node.custom + '2',
+          }
+        },
+      })
+    ).to.deep.equal([
+      {
+        data: { id: "4", parentId: null, custom: "abc", custom2: "abc2" },
+        children: [
+          { data: { id: "31", parentId: "4", custom: "12", custom2: "122" }, children: [] },
+        ],
+      },
+      {
+        data: { id: "418", parentId: null, custom: "ü", custom2: "ü2" },
+        children: [
+          { data: { id: "1941", parentId: "418", custom: "de", custom2: "de2", }, children: [] },
+          { data: { id: "1", parentId: "418", custom: "ZZZz", custom2: "ZZZz2" }, children: [] },
+        ],
+      },
+    ]);
+  });
 });
 
 describe("countNodes", () => {
